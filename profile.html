@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>World Cup Wiki - Perfil de usuario</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="background bg-dark">
+        <img src="resources/photo-1434648957308-5e6a859697e8.jpg" alt="Fondo">
+    </div>
+
+    <!-- Editar Publicación Formulario-->
+    <div class="modal fade" id="modalPublicacion" tabindex="-1" aria-labelledby="modalPublicacionLabel"
+        aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalPublicacionLabel">Editar Publicación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <!-- Categoría -->
+                        <div class="mb-3">
+                            <label for="categoria" class="form-label">Categoría</label>
+                            <select class="form-select" id="categoria" required>
+                                <option value="" selected disabled>Elija una categoría</option>
+                                <option value="historia">Historia</option>
+                                <option value="jugador">Jugador</option>
+                                <option value="partido">Partido</option>
+                                <option value="dato">Dato curioso</option>
+                            </select>
+                        </div>
+
+                        <!-- Imagen o video -->
+                        <div class="mb-3">
+                            <label for="media" class="form-label">Imagen o Video</label>
+                            <input class="form-control" type="file" id="media" accept="image/*,video/*" required>
+                        </div>
+
+                        <!-- Mundial -->
+                        <div class="mb-3">
+                            <label for="mundial" class="form-label">Mundial</label>
+                            <select class="form-select" id="mundial" required>
+                                <option value="" selected disabled>Elija un mundial</option>
+                                <option value="2014">Brasil 2014</option>
+                            </select>
+                        </div>
+
+                        <!-- Selección (opcional) -->
+                        <div class="mb-3">
+                            <label for="seleccion" class="form-label">Selección (opcional)</label>
+                            <select class="form-select" id="seleccion" required>
+                                <option value="" selected disabled>Elija una selección</option>
+                                <option value="Argentina">Argentina</option>
+                            </select>
+                        </div>
+
+                        <!-- Botón enviar -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">Editar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Editar Perfil Formulario-->
+    <div class="modal fade" id="modalEditarPerfil" tabindex="-1" aria-labelledby="modalEditarPerfilLabel"
+        aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditarPerfilLabel">Editar Perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditarPerfil">
+                        <!-- Vista previa de imagen -->
+                        <div class="mb-3 text-center">
+                            <img id="image-preview" src="" alt="Vista previa de la imagen" class="img-fluid"
+                                style="max-height:150px;">
+                        </div>
+
+                        <!-- Imagen de perfil -->
+                        <div class="mb-3">
+                            <label for="profile-image" class="form-label">Imagen de perfil</label>
+                            <input type="file" class="form-control form-control-sm" id="profile-image" accept="image/*"
+                                onchange="previewImage(event)" required>
+                        </div>
+
+                        <!-- Nombre y Correo -->
+                        <div class="row gx-2 mb-3">
+                            <div class="col-md-6">
+                                <label for="nombre" class="form-label">Nombre Completo</label>
+                                <input type="text" class="form-control form-control-sm" id="nombre"
+                                    placeholder="Nombre Completo" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="correo" class="form-label">Correo Electrónico</label>
+                                <input type="email" class="form-control form-control-sm" id="correo"
+                                    placeholder="Correo Electrónico" required>
+                            </div>
+                        </div>
+
+                        <!-- Fecha de nacimiento y País -->
+                        <div class="row gx-2 mb-3">
+                            <div class="col-md-6">
+                                <label for="fecha" class="form-label">Fecha de Nacimiento</label>
+                                <input type="date" class="form-control form-control-sm" id="fecha" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="pais" class="form-label">País</label>
+                                <select class="form-select form-select-sm" id="pais" required>
+                                    <option value="" selected disabled>Seleccione un país</option>
+                                    <option value="mx">México</option>
+                                    <option value="us">EE. UU.</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Nacionalidad y Género -->
+                        <div class="row gx-2 mb-3">
+                            <div class="col-md-6">
+                                <label for="nacionalidad" class="form-label">Nacionalidad</label>
+                                <input type="text" class="form-control form-control-sm" id="nacionalidad"
+                                    placeholder="Nacionalidad">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="genero" class="form-label">Género</label>
+                                <select class="form-select form-select-sm" id="genero">
+                                    <option value="" selected disabled>Seleccione género</option>
+                                    <option value="m">Masculino</option>
+                                    <option value="f">Femenino</option>
+                                    <option value="o">Otro</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Contraseña y Repetir contraseña -->
+                        <div class="row gx-2 mb-3">
+                            <div class="col-md-6">
+                                <label for="password" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control form-control-sm" id="password"
+                                    placeholder="Contraseña" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="password2" class="form-label">Repetir Contraseña</label>
+                                <input type="password" class="form-control form-control-sm" id="password2"
+                                    placeholder="Repetir Contraseña" required>
+                            </div>
+                        </div>
+
+                        <!-- Botón registrar -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-dark btn-sm w-100">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
+        <div class="container-fluid justify-content-lg-center">
+            <a class="navbar-brand ps-3 pe-3" href="index.html">
+                <img src="resources/WCW-Logo.svg" alt="Logo" id="logo-nav">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-center" id="navbarContent">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <button class="btn btn-success" onclick="history.back();" aria-label="Regresar">
+                            <i class="fas fa-arrow-left"></i> Regresar
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Perfil -->
+    <section class="profile-hero">
+        <div class="container">
+            <div class="profile-pic mb-3">
+                <img src="resources\64572.png" alt="Perfil">
+            </div>
+            <h1 class="display-4">Juan Martínez</h1>
+            <p class="lead">
+                <i class="fas fa-calendar-alt me-2"></i>12/12/1990
+                <i class="fas fa-map-marker-alt ms-4 me-2"></i>México
+                <i class="fas fa-flag ms-4 me-2"></i>Mexicano
+            </p>
+            <button class="btn btn-success btn-lg btn-edit-profile" type="button" data-bs-toggle="modal"
+                data-bs-target="#modalEditarPerfil">
+                Editar Perfil
+            </button>
+
+        </div>
+    </section>
+
+    <!-- Info y Estadísticas -->
+    <div class="container my-5 user-info">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card p-4 shadow-sm profile-card">
+                    <h5>Información de contacto</h5>
+                    <p><strong>Correo:</strong> juan@mail.com</p>
+                    <p><strong>Género:</strong> Masculino</p>
+                    <p><strong>Contraseña:</strong> ********</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card p-4 shadow-sm profile-card">
+                    <h5>Estadísticas</h5>
+                    <p><strong>Publicaciones:</strong> 45</p>
+                    <p><strong>Me gusta:</strong> 120</p>
+                    <p><strong>Comentarios:</strong> 75</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Publicaciones e Interacciones -->
+    <div class="container my-5 profile-content">
+        <div class="row">
+            <div class="col-lg-8 mb-4">
+                <!-- Aquí va tu bucle de posts -->
+                <div class="post-card-wrapper rounded ">
+                    <div class="card post-card shadow-lg p-3">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <div class="d-flex align-items-center">
+                                    <img src="resources/64572.png" alt="Perfil" class="profile-img">
+                                    <div>
+                                        <h6 class="mb-0">Juan Martínez</h6>
+                                        <small class="text-muted">Publicado el 12/12/2025 a las 13:00</small>
+                                    </div>
+                                </div>
+                                <div class="dropdown">
+                                    <button id="dropdownButton" class="btn btn-dark border-0" type="button"
+                                        data-bs-toggle="dropdown">
+                                        <i id="dropdownIcon" class="fas fa-ellipsis-h text-white"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <a class="dropdown-item" href="#" id="editarBtn">Editar</a>
+                                        <li><a class="dropdown-item" href="#" id="deleteItem">Eliminar</a></li>
+                                    </ul>
+                                </div>
+
+                            </div>
+
+                            <div class="mb-2 pt-3">
+                                <span class="badge bg-black me-1 pt-1 pb-1 ps-3 pe-3">Categoría</span>
+                                <span class="badge bg-success  pt-1 pb-1 ps-3 pe-3">Selección</span>
+                            </div>
+
+                            <img src="resources\66e956f061db0.png" alt="Imagen publicación"
+                                class="post-image shadow-sm">
+
+                            <div class="d-flex mb-2 gap-2 align-items-center">
+
+                                <button id="btnMeGusta" class="btn btn-outline-primary d-flex align-items-center"
+                                    type="button">
+                                    <i class="fas fa-thumbs-up me-1"></i> Me gusta
+                                </button>
+
+                                <button class="btn btn-outline-success d-flex align-items-center" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#comentarios1" aria-expanded="false"
+                                    aria-controls="comentarios1">
+                                    <i class="fas fa-comment me-1"></i> Comentar
+                                </button>
+                            </div>
+
+                            <div class="collapse mt-2" id="comentarios1">
+                                <div class="comment bg-light rounded">
+                                    <div class="comment-header d-flex justify-content-between align-items-center p-3">
+                                        <!-- Contenedor del usuario -->
+                                        <div class="comment-user d-flex align-items-center">
+                                            <img src="resources/64572.png" alt="Avatar" class="rounded-circle"
+                                                width="40" height="40">
+                                            <div class="ms-2">
+                                                <strong>Ana López</strong><br>
+                                                <small class="text-muted">Publicado el 12/12/2025 a las 13:00</small>
+                                            </div>
+                                        </div>
+                                        <!-- Botón de regresar -->
+                                        <div class="dropdown">
+                                            <button id="dropdownButtonComment" class="btn btn-dark border-0"
+                                                type="button" data-bs-toggle="dropdown">
+                                                <i id="dropdownIcon" class="fas fa-ellipsis-h text-white"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a class="dropdown-item" href="#" id="editItemComment">Editar</a>
+                                                </li>
+                                                <li><a class="dropdown-item" href="#"
+                                                        id="deleteItemComment">Eliminar</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <p class="p-3">¡Qué publicación más interesante!</p>
+                                    <div class="comment-footer d-flex gap-2 align-items-center mt-2">
+                                        <input type="text" class="form-control new-comment-input"
+                                            placeholder="Escribe un comentario...">
+                                        <button class="btn btn-black submit-comment" type="button">
+                                            <i class="fas fa-paper-plane fa-lg icon-send"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <h5 class="mb-3 text-white">Interacciones recientes</h5>
+                <div class="card mb-3 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <img src="resources\64572.png" class="rounded-circle me-3" width="50" height="50">
+                                <div>
+                                    <strong>Ana López</strong><br>
+                                    <small class="text-muted"><i class="fas fa-comment text-success me-1"></i>Comentó el
+                                        12/12/2025 a las 13:00</small>
+                                </div>
+                            </div>
+                            <button class="btn btn-sm btn-outline-success" data-bs-toggle="collapse"
+                                data-bs-target="#post1">Ver publicación</button>
+                        </div>
+                        <div class="collapse mt-2" id="post1">
+                            <div class="card card-body bg-light">
+                                <p><strong>Juan Martínez</strong></p>
+                                <img src="resources\66e956f061db0.png" class="img-fluid rounded" alt="Publicación">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        document.querySelector('.submit-comment').addEventListener('click', function () {
+            const icon = this.querySelector('.icon-send');
+
+            icon.classList.remove('fa-paper-plane');
+            icon.classList.add('fa-spinner', 'fa-spin');
+
+            setTimeout(() => {
+                icon.classList.remove('fa-spinner', 'fa-spin');
+                icon.classList.add('fa-check');
+                icon.style.color = 'green';
+
+
+                setTimeout(() => {
+                    icon.classList.remove('fa-check');
+                    icon.classList.add('fa-paper-plane');
+                    icon.style.color = '';
+                }, 1500);
+            }, 2000);
+        });
+
+    </script>
+    <script>
+        document.getElementById('deleteItem').addEventListener('click', function () {
+            const buttonIcon = document.querySelector('#dropdownButton i');
+            buttonIcon.classList.replace('fa-ellipsis-h', 'fa-check');
+            setTimeout(() => {
+                buttonIcon.classList.replace('fa-check', 'fa-ellipsis-h');
+            }, 1000);
+        });
+        document.getElementById('deleteItemComment').addEventListener('click', function () {
+            const buttonIcon = document.querySelector('#dropdownButtonComment i');
+            buttonIcon.classList.replace('fa-ellipsis-h', 'fa-check');
+            setTimeout(() => {
+                buttonIcon.classList.replace('fa-check', 'fa-ellipsis-h');
+            }, 1000);
+        });
+        document.getElementById('editItemComment').addEventListener('click', function () {
+            const buttonIcon = document.querySelector('#dropdownButtonComment i');
+            buttonIcon.classList.replace('fa-ellipsis-h', 'fa-spinner');
+            setTimeout(() => {
+                buttonIcon.classList.replace('fa-spinner', 'fa-ellipsis-h');
+            }, 1000);
+        });
+
+        document.getElementById('editarBtn').addEventListener('click', function (event) {
+            event.preventDefault();
+            var myModal = new bootstrap.Modal(document.getElementById('modalPublicacion'));
+            myModal.show();
+        });
+
+        document.getElementById('btnMeGusta').addEventListener('click', function () {
+            this.classList.toggle('btn-outline-primary');
+            this.classList.toggle('btn-primary');
+            const icon = this.querySelector('i');
+            if (this.classList.contains('btn-primary')) {
+                icon.classList.replace('fa-thumbs-up', 'fa-thumbs-down');
+            } else {
+                icon.classList.replace('fa-thumbs-down', 'fa-thumbs-up');
+            }
+        });
+
+
+
+
+    </script>
+
+</body>
+
+</html>
