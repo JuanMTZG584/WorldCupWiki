@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>World Cup Wiki - Perfil de usuario</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/css/all.min.css">
+    <link rel="stylesheet" href="../public/css/style.css">
 </head>
 
 <body>
     <div class="background bg-dark">
-        <img src="resources/photo-1434648957308-5e6a859697e8.jpg" alt="Fondo">
+        <img src="../public/resources/photo-1434648957308-5e6a859697e8.jpg" alt="Fondo">
     </div>
 
     <!-- Editar Publicación Formulario-->
@@ -174,7 +174,7 @@
     <section class="profile-hero">
         <div class="container">
             <div class="profile-pic mb-3">
-                <img src="resources\64572.png" alt="Perfil">
+                <img src="../public/resources\64572.png" alt="Perfil">
             </div>
             <h1 class="display-4">Juan Martínez</h1>
             <p class="lead">
@@ -222,7 +222,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between mb-2">
                                 <div class="d-flex align-items-center">
-                                    <img src="resources/64572.png" alt="Perfil" class="profile-img">
+                                    <img src="../public/resources/64572.png" alt="Perfil" class="profile-img">
                                     <div>
                                         <h6 class="mb-0">Juan Martínez</h6>
                                         <small class="text-muted">Publicado el 12/12/2025 a las 13:00</small>
@@ -246,7 +246,7 @@
                                 <span class="badge bg-success  pt-1 pb-1 ps-3 pe-3">Selección</span>
                             </div>
 
-                            <img src="resources\66e956f061db0.png" alt="Imagen publicación"
+                            <img src="../public/resources\66e956f061db0.png" alt="Imagen publicación"
                                 class="post-image shadow-sm">
 
                             <div class="d-flex mb-2 gap-2 align-items-center">
@@ -268,7 +268,7 @@
                                     <div class="comment-header d-flex justify-content-between align-items-center p-3">
                                         <!-- Contenedor del usuario -->
                                         <div class="comment-user d-flex align-items-center">
-                                            <img src="resources/64572.png" alt="Avatar" class="rounded-circle"
+                                            <img src="../public/resources/64572.png" alt="Avatar" class="rounded-circle"
                                                 width="40" height="40">
                                             <div class="ms-2">
                                                 <strong>Ana López</strong><br>
@@ -312,7 +312,7 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center">
-                                <img src="resources\64572.png" class="rounded-circle me-3" width="50" height="50">
+                                <img src="../public/resources\64572.png" class="rounded-circle me-3" width="50" height="50">
                                 <div>
                                     <strong>Ana López</strong><br>
                                     <small class="text-muted"><i class="fas fa-comment text-success me-1"></i>Comentó el
@@ -325,7 +325,7 @@
                         <div class="collapse mt-2" id="post1">
                             <div class="card card-body bg-light">
                                 <p><strong>Juan Martínez</strong></p>
-                                <img src="resources\66e956f061db0.png" class="img-fluid rounded" alt="Publicación">
+                                <img src="../public/resources\66e956f061db0.png" class="img-fluid rounded" alt="Publicación">
                             </div>
                         </div>
                     </div>
@@ -334,8 +334,8 @@
         </div>
     </div>
 
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/controls.script.js"></script>
+    <script src="../public/js/bootstrap.bundle.min.js"></script>
+    <script src="../public/js/controls.script.js"></script>
 </body>
 
 </html>

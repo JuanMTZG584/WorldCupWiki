@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Administrador</title>
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/all.min.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="../public/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../public/css/all.min.css">
+  <link rel="stylesheet" href="../public/css/style.css">
 </head>
 <body>
   <div class="background bg-dark">
-    <img src="resources/photo-1434648957308-5e6a859697e8.jpg" alt="Fondo">
+    <img src="../public/resources/photo-1434648957308-5e6a859697e8.jpg" alt="Fondo">
   </div>
 
   <!-- Navbar simplificada-->
@@ -28,7 +28,7 @@
         <div class="card shadow-sm mb-4">
           <div class="card-body">
             <div class="d-flex align-items-center mb-3">
-              <img src="resources\64572.png" class="rounded-circle me-3" alt="Usuario" width="50" height="50">
+              <img src="../public/resources\64572.png" class="rounded-circle me-3" alt="Usuario" width="50" height="50">
               <div>
                 <h6 class="mb-0">Juan Martínez</h6>
                 <small class="text-muted">Publicado el 12/09/2025 a las 14:00</small><br>
@@ -36,7 +36,7 @@
                 <span class="badge bg-secondary">Selección Argentina</span>
               </div>
             </div>
-            <img src="resources\66e956f061db0.png" class="img-fluid rounded mb-3" alt="Publicación">
+            <img src="../public/resources\66e956f061db0.png" class="img-fluid rounded mb-3" alt="Publicación">
             <button class="btn btn-success btn-sm mb-3 approve-publication"><i class="fas fa-check"></i> Aprobar
               publicación</button>
 
@@ -65,7 +65,7 @@
         <div class="card shadow-sm mb-4">
           <div class="card-body">
             <div class="d-flex align-items-center mb-3">
-              <img src="resources\64572.png" class="rounded-circle me-3" alt="Usuario" width="50" height="50">
+              <img src="../public/resources\64572.png" class="rounded-circle me-3" alt="Usuario" width="50" height="50">
               <div>
                 <h6 class="mb-0">Pedro Sánchez</h6>
                 <small class="text-muted">Publicado el 10/09/2025 a las 19:00</small><br>
@@ -187,7 +187,7 @@
     </div>
   </div>
 
-  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="../public/js/bootstrap.bundle.min.js"></script>
   <script>
     document.querySelectorAll('.approve-publication').forEach(btn => {
       btn.addEventListener('click', () => {

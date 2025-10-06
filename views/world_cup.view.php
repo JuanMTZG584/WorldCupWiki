@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wold Cup Wiki - Mundial seleccionado</title>
 
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/all.min.css" />
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/css/all.min.css" />
+    <link rel="stylesheet" href="../public/css/style.css">
 </head>
 
 <body>
     <div class="background bg-dark">
-        <img src="resources/photo-1434648957308-5e6a859697e8.jpg" alt="Fondo">
+        <img src="../public/resources/photo-1434648957308-5e6a859697e8.jpg" alt="Fondo">
     </div>
 
     <!-- Editar Publicación Formulario-->
@@ -79,7 +79,7 @@
             <div class="row align-items-center">
 
                 <div class="col-12 col-md-6 text-center text-md-start mb-4 mb-md-0">
-                    <img src="resources/WCW-Logo.svg" alt="Logo Mundial" class="img-fluid mb-3"
+                    <img src="../public/resources/WCW-Logo.svg" alt="Logo Mundial" class="img-fluid mb-3"
                         style="max-height: 120px;">
                     <h1 class="display-3 fw-bold">FIFA World Cup 2026</h1>
                     <p class="lead">El 10 de enero de 2017 el Consejo de la FIFA aprobó por unanimidad, la propuesta del
@@ -88,7 +88,7 @@
                 </div>
 
                 <div class="col-12 col-md-6 text-center text-md-end">
-                    <img src="resources\66e956f061db0.png" alt="Imagen representativa"
+                    <img src="../public/resources\66e956f061db0.png" alt="Imagen representativa"
                         class="img-fluid rounded shadow-lg">
                 </div>
 
@@ -128,8 +128,8 @@
     </div>
 
     <!-- Scripts -->
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/controls.script.js"></script>
+    <script src="../public/js/bootstrap.bundle.min.js"></script>
+    <script src="../public/js/controls.script.js"></script>
 </body>
 
 </html>

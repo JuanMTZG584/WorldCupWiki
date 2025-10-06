@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Wold Cup Wiki - Registro</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/css/all.min.css">
+    <link rel="stylesheet" href="../public/css/style.css">
 </head>
 <body>
     <div class="background bg-dark">
-        <img src="photo-1434648957308-5e6a859697e8.jpg" alt="Fondo">
+        <img src="../public/resources/photo-1434648957308-5e6a859697e8.jpg" alt="Fondo">
     </div>
     <section class="p-3 p-md-4 p-xl-5 d-flex align-items-center min-vh-100 fade-in shadow-lg">
         <div class="container">
@@ -111,7 +111,7 @@
 
                             <div class="col-6 col-md-6">
                                 <a class="navbar-brand ps-3 pe-3" href="#">
-                                    <img src="resources/WCW-Logo.svg" alt="Logo" id="logo-nav">
+                                    <img src="../public/resources/WCW-Logo.svg" alt="Logo" id="logo-nav">
                                 </a>
                             </div>
 
@@ -127,7 +127,7 @@
         </div>
     </section>
 
-    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="../public/js/bootstrap.bundle.min.js"></script>
     <script>
         function previewImage(event) {
             const reader = new FileReader();

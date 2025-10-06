@@ -6,15 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wold Cup Wiki</title>
 
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/all.min.css">
-  <link rel="stylesheet" href="css/swiper-bundle.min.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link href="../public/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../public/css/all.min.css">
+  <link rel="stylesheet" href="../public/css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="../public/css/style.css">
 </head>
 
 <body>
   <div class="background bg-dark">
-    <img src="resources/photo-1434648957308-5e6a859697e8.jpg" alt="Fondo">
+    <img src="../public/resources/photo-1434648957308-5e6a859697e8.jpg" alt="Fondo">
   </div>
 
   <!-- Editar Publicación Formulario-->
@@ -79,25 +79,25 @@
   <!-- Swiper -->
   <div class="swiper-container">
     <div class="swiper-wrapper mt-6">
-      <div class="swiper-slide" data-image="resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.view.php">
+      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.view.php">
         <div class="card rounded">Copa Mundial 1930</div>
       </div>
-      <div class="swiper-slide" data-image="resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.view.php">
+      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.view.php">
         <div class="card rounded">Copa Mundial 1934</div>
       </div>
-      <div class="swiper-slide" data-image="resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.view.php">
+      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.view.php">
         <div class="card rounded">Copa Mundial 1934</div>
       </div>
-      <div class="swiper-slide" data-image="resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.view.php">
+      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.view.php">
         <div class="card rounded">Copa Mundial 1934</div>
       </div>
-      <div class="swiper-slide" data-image="resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.view.php">
+      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.view.php">
         <div class="card rounded">Copa Mundial 1934</div>
       </div>
-      <div class="swiper-slide" data-image="resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.view.php">
+      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.view.php">
         <div class="card rounded">Copa Mundial 1934</div>
       </div>
-      <div class="swiper-slide" data-image="resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.view.php">
+      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.view.php">
         <div class="card rounded">Copa Mundial 1934</div>
       </div>
     </div>
@@ -151,8 +151,8 @@
   </div>
 
   <!-- Scripts -->
-  <script src="js/swiper-bundle.min.js"></script>
-  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="../public/js/swiper-bundle.min.js"></script>
+  <script src="../public/js/bootstrap.bundle.min.js"></script>
   <script>
     const swiper = new Swiper('.swiper-container', {
       loop: true,
@@ -186,7 +186,7 @@
       });
     });
   </script>
-  <script src="js/controls.script.js"></script>
+  <script src="../public/js/controls.script.js"></script>
 </body>
 
 </html>

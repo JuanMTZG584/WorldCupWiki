@@ -80,7 +80,7 @@
             <div class="card-body">
               <div class="d-flex justify-content-between mb-2">
                 <div class="d-flex align-items-center">
-                  <img src="resources/64572.png" alt="Perfil" class="profile-img">
+                  <img src="../public/resources/64572.png" alt="Perfil" class="profile-img">
                   <div>
                     <h6 class="mb-0">Juan Martínez</h6>
                     <small class="text-muted">Publicado el 12/12/2025 a las 13:00</small>
@@ -103,7 +103,7 @@
                 <span class="badge bg-success  pt-1 pb-1 ps-3 pe-3">Selección</span>
               </div>
 
-              <img src="resources\66e956f061db0.png" alt="Imagen publicación" class="post-image shadow-sm">
+              <img src="../public/resources\66e956f061db0.png" alt="Imagen publicación" class="post-image shadow-sm">
 
               <div class="d-flex mb-2 gap-2 align-items-center">
 
@@ -123,7 +123,7 @@
                   <div class="comment-header d-flex justify-content-between align-items-center p-3">
 
                     <div class="comment-user d-flex align-items-center">
-                      <img src="resources/64572.png" alt="Avatar" class="rounded-circle" width="40" height="40">
+                      <img src="../public/resources/64572.png" alt="Avatar" class="rounded-circle" width="40" height="40">
                       <div class="ms-2">
                         <strong>Ana López</strong><br>
                         <small class="text-muted">Publicado el 12/12/2025 a las 13:00</small>

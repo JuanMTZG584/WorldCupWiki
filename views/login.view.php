@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Wold Cup Wiki - Inicio de Sesión</title>
 
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/css/all.min.css">
+    <link rel="stylesheet" href="../public/css/style.css">
 </head>
 
 <body>
     <div class="background bg-dark">
-        <img src="resources/photo-1434648957308-5e6a859697e8.jpg" alt="Fondo">
+        <img src="../public/resources/photo-1434648957308-5e6a859697e8.jpg" alt="Fondo">
     </div>
 
     <!-- Tarjeta -->
@@ -27,7 +27,7 @@
                         <div class="d-flex align-items-center justify-content-center h-100">
                             <div class="col-10 col-xl-8 py-3">
 
-                                <img class="img-fluid rounded mb-4 logo-img" loading="lazy" src="resources/WCW-Logo.svg"
+                                <img class="img-fluid rounded mb-4 logo-img" loading="lazy" src="../public/resources/WCW-Logo.svg"
                                     width="245" height="80" alt="Logo">
 
                                 <hr class="mb-4">
@@ -101,7 +101,7 @@
         </div>
     </section>
 
-    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="../public/js/bootstrap.bundle.min.js"></script>
     <script>
         document.getElementById("loginButton").addEventListener("click", function () {
            
