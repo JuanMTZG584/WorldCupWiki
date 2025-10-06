@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,34 +8,13 @@
   <link rel="stylesheet" href="css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
   <div class="background bg-dark">
     <img src="resources/photo-1434648957308-5e6a859697e8.jpg" alt="Fondo">
   </div>
 
   <!-- Navbar simplificada-->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
-    <div class="container-fluid justify-content-lg-center">
-      <a class="navbar-brand ps-3 pe-3" href="index.html">
-        <img src="resources/WCW-Logo.svg" alt="Logo" id="logo-nav">
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
-        aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse justify-content-center" id="navbarContent">
-        <ul class="navbar-nav ms-auto align-items-center">
-          <li class="nav-item">
-            <button class="btn btn-success" onclick="history.back();" aria-label="Regresar">
-              <i class="fas fa-arrow-left"></i> Regresar
-            </button>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <?php include 'partials/navbar-simplified.view.php'; ?>
 
   <!-- Dashboard-->
   <div class="container">

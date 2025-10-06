@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,12 +8,10 @@
     <link rel="stylesheet" href="css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
     <div class="background bg-dark">
         <img src="photo-1434648957308-5e6a859697e8.jpg" alt="Fondo">
     </div>
-
     <section class="p-3 p-md-4 p-xl-5 d-flex align-items-center min-vh-100 fade-in shadow-lg">
         <div class="container">
             <div class="card shadow-sm">
@@ -25,7 +22,7 @@
                             <h3>Registrate</h3>
                         </div>
 
-                        <a href="index.html" class="position-absolute top-0 end-0 m-3 text-dark text-decoration-none">
+                        <a href="index.view.php" class="position-absolute top-0 end-0 m-3 text-dark text-decoration-none">
                             <i class="fa-solid fa-x fa-lg" aria-hidden="true"></i>
                         </a>
 
@@ -119,7 +116,7 @@
                             </div>
 
                             <div class="col-6 col-md-6 d-flex justify-content-end">
-                                <a href="login.html" class="link-dark text-decoration-none">Iniciar Sesión</a>
+                                <a href="login.view.php" class="link-dark text-decoration-none">Iniciar Sesión</a>
                             </div>
                         </div>
 
