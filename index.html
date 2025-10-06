@@ -103,6 +103,7 @@
   <!-- Hero -->
   <h1 class="p-3 text-white display-1 fw-bold text-center pb-5 title">¡Bienvenido a World Cup Wiki!</h1>
 
+  <!-- Swiper -->
   <div class="swiper-container">
     <div class="swiper-wrapper mt-6">
       <div class="swiper-slide" data-image="resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.html">
@@ -333,8 +334,6 @@
     </div>
   </div>
 
-
-
   <!-- Scripts -->
   <script src="js/swiper-bundle.min.js"></script>
   <script src="js/bootstrap.bundle.min.js"></script>
@@ -371,144 +370,7 @@
       });
     });
   </script>
-  <script>
-    const usuarioBtn = document.getElementById('usuarioBtn');
-    const usuarioInput = document.getElementById('usuarioInput');
-    usuarioBtn.addEventListener('click', () => {
-      usuarioInput.classList.toggle('active');
-    });
-
-    function filtrarPublicaciones() {
-      const categoria = document.getElementById('categoriafilter').checked;
-      const ano = document.getElementById('ano').checked;
-      const pais = document.getElementById('pais').checked;
-      const usuario = usuarioInput.value.trim();
-      const publicacionesDiv = document.getElementById('publicaciones');
-      publicacionesDiv.innerHTML = `
-        <p>Filtrando por:</p>
-        <ul>
-          ${categoria ? '<li>Categoría: Deportes</li>' : ''}
-          ${ano ? '<li>Año Mundial: 2022</li>' : ''}
-          ${pais ? '<li>País Sede: Qatar</li>' : ''}
-          ${usuario ? `<li>Usuario: ${usuario}</li>` : ''}
-        </ul>
-      `;
-    }
-    document.querySelectorAll('.filter-group input').forEach(input => {
-      input.addEventListener('change', filtrarPublicaciones);
-    });
-    usuarioInput.addEventListener('input', filtrarPublicaciones);
-  </script>
-  <script>
-    const form = document.querySelector('#formPublicacion form');
-    const btn = document.getElementById('btnPublicar');
-    const btnText = document.getElementById('btnText');
-    const btnIcon = document.getElementById('btnIcon');
-    const mensaje = document.getElementById('mensajePublicacion');
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault(); // Evita enviar realmente el formulario
-
-      // Mostrar ícono de carga
-      btn.disabled = true;
-      btnIcon.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-
-      // Simular envío con delay
-      setTimeout(() => {
-        // Cambiar ícono por palomita y mostrar mensaje
-        btnIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
-        btnText.textContent = 'Publicado';
-        mensaje.style.display = 'block';
-
-        // Restaurar el botón después de 2s
-        setTimeout(() => {
-          btn.disabled = false;
-          btnIcon.innerHTML = '';
-          btnText.textContent = 'Publicar';
-          mensaje.style.display = 'none';
-        }, 2000);
-
-      }, 1500); // Simula 1.5s de carga
-    });
-  </script>
-  <script>
-    document.querySelector('.submit-comment').addEventListener('click', function () {
-      const icon = this.querySelector('.icon-send');
-
-      // cambio a spinner
-      icon.classList.remove('fa-paper-plane');
-      icon.classList.add('fa-spinner', 'fa-spin');
-
-      // simulamos acción asincrónica
-      setTimeout(() => {
-        icon.classList.remove('fa-spinner', 'fa-spin');
-        icon.classList.add('fa-check');        // palomita
-        icon.style.color = 'green';
-
-        // opcional: volver al ícono original después
-        setTimeout(() => {
-          icon.classList.remove('fa-check');
-          icon.classList.add('fa-paper-plane');
-          icon.style.color = ''; // quita el estilo
-        }, 1500);
-      }, 2000);
-    });
-
-  </script>
-  <script>
-
-    document.getElementById("searchButton").addEventListener("click", function () {
-      alert("Búsqueda realizada correctamente.");
-    });
-
-    document.querySelectorAll('.order-by').forEach(item => {
-      item.addEventListener('click', function () {
-        const selectedText = this.textContent;
-        const dropdownButton = document.getElementById('filtroDropdown');
-        dropdownButton.innerHTML = `Ordenado por: ${selectedText} <span class="caret"></span>`;
-      });
-    });
-
-    document.getElementById('deleteItem').addEventListener('click', function () {
-      const buttonIcon = document.querySelector('#dropdownButton i');
-      buttonIcon.classList.replace('fa-ellipsis-h', 'fa-check');
-      setTimeout(() => {
-        buttonIcon.classList.replace('fa-check', 'fa-ellipsis-h');
-      }, 1000);
-    });
-    document.getElementById('deleteItemComment').addEventListener('click', function () {
-      const buttonIcon = document.querySelector('#dropdownButtonComment i');
-      buttonIcon.classList.replace('fa-ellipsis-h', 'fa-check');
-      setTimeout(() => {
-        buttonIcon.classList.replace('fa-check', 'fa-ellipsis-h');
-      }, 1000);
-    });
-    document.getElementById('editItemComment').addEventListener('click', function () {
-      const buttonIcon = document.querySelector('#dropdownButtonComment i');
-      buttonIcon.classList.replace('fa-ellipsis-h', 'fa-spinner');
-      setTimeout(() => {
-        buttonIcon.classList.replace('fa-spinner', 'fa-ellipsis-h');
-      }, 1000);
-    });
-
-    document.getElementById('editarBtn').addEventListener('click', function (event) {
-      event.preventDefault();
-      var myModal = new bootstrap.Modal(document.getElementById('modalPublicacion'));
-      myModal.show();
-    });
-
-    document.getElementById('btnMeGusta').addEventListener('click', function () {
-      this.classList.toggle('btn-outline-primary');
-      this.classList.toggle('btn-primary');
-      const icon = this.querySelector('i');
-      if (this.classList.contains('btn-primary')) {
-        icon.classList.replace('fa-thumbs-up', 'fa-thumbs-down');
-      } else {
-        icon.classList.replace('fa-thumbs-down', 'fa-thumbs-up');
-      }
-    });
-
-  </script>
+  <script src="js/controls.script.js"></script>
 </body>
 
 </html>
