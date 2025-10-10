@@ -48,7 +48,7 @@
                                 <h3>Inicia sesión ahora</h3>
                             </div>
 
-                            <a href="index.view.php"
+                            <a href="/"
                                 class="position-absolute top-0 end-0 m-3 text-dark text-decoration-none">
                                 <i class="fa-solid fa-x fa-lg" aria-hidden="true"></i>
                             </a>
@@ -89,7 +89,7 @@
                                 <div class="col-12">
                                     <hr class="border-dark mb-4">
                                     <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-end">
-                                        <a href="sign_up.view.php" class="link-dark text-decoration-none">Crear cuenta</a>
+                                        <a href="sign_up" class="link-dark text-decoration-none">Crear cuenta</a>
                                     </div>
                                 </div>
                             </div>

@@ -79,25 +79,25 @@
   <!-- Swiper -->
   <div class="swiper-container">
     <div class="swiper-wrapper mt-6">
-      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.view.php">
+      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup">
         <div class="card rounded">Copa Mundial 1930</div>
       </div>
-      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.view.php">
+      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup">
         <div class="card rounded">Copa Mundial 1934</div>
       </div>
-      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.view.php">
+      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup">
         <div class="card rounded">Copa Mundial 1934</div>
       </div>
-      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.view.php">
+      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup">
         <div class="card rounded">Copa Mundial 1934</div>
       </div>
-      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.view.php">
+      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup">
         <div class="card rounded">Copa Mundial 1934</div>
       </div>
-      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.view.php">
+      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup">
         <div class="card rounded">Copa Mundial 1934</div>
       </div>
-      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup.view.php">
+      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup">
         <div class="card rounded">Copa Mundial 1934</div>
       </div>
     </div>

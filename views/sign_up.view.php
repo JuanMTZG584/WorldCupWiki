@@ -22,7 +22,7 @@
                             <h3>Registrate</h3>
                         </div>
 
-                        <a href="index.view.php" class="position-absolute top-0 end-0 m-3 text-dark text-decoration-none">
+                        <a href="/" class="position-absolute top-0 end-0 m-3 text-dark text-decoration-none">
                             <i class="fa-solid fa-x fa-lg" aria-hidden="true"></i>
                         </a>
 
@@ -116,7 +116,7 @@
                             </div>
 
                             <div class="col-6 col-md-6 d-flex justify-content-end">
-                                <a href="login.view.php" class="link-dark text-decoration-none">Iniciar Sesión</a>
+                                <a href="login" class="link-dark text-decoration-none">Iniciar Sesión</a>
                             </div>
                         </div>
 
