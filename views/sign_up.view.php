@@ -15,6 +15,9 @@
         <img src="../public/resources/photo-1434648957308-5e6a859697e8.jpg" alt="Fondo">
     </div>
     <section class="p-3 p-md-4 p-xl-5 d-flex align-items-center min-vh-100 fade-in shadow-lg">
+
+
+
         <div class="container">
             <div class="card shadow-sm">
                 <div class="row g-0">
@@ -28,6 +31,8 @@
                             <i class="fa-solid fa-x fa-lg" aria-hidden="true"></i>
                         </a>
 
+                        <div id="password-errors" class="alert alert-danger mt-3 d-none" role="alert">
+                        </div>
                         <form action="#!">
 
                             <div class="mb-3 text-center">
@@ -85,8 +90,7 @@
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-                                    <button type="button" id="addNacionalidad"
-                                        class="btn btn-dark btn-sm mt-1">
+                                    <button type="button" id="addNacionalidad" class="btn btn-dark btn-sm mt-1">
                                         Agregar otra nacionalidad
                                     </button>
                                 </div>
@@ -143,7 +147,10 @@
                 </div>
             </div>
         </div>
+
     </section>
+
+
 
     <script src="../public/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -157,17 +164,6 @@
             reader.readAsDataURL(event.target.files[0]);
         }
 
-        document.getElementById("registerButton").addEventListener("click", function () {
-
-            this.textContent = "Registro de usuario exitoso";
-            this.disabled = true;
-
-            setTimeout(() => {
-                this.textContent = "Registrarse";
-                this.disabled = false;
-            }, 2000);
-        });
-
         //Dynamically add combobox to select nationality
         document.getElementById("addNacionalidad").addEventListener("click", function () {
             const container = document.getElementById("nacionalidades-container");
@@ -178,6 +174,48 @@
 
             container.appendChild(newSelect);
         });
+
+        //Validate password
+        document.getElementById("registerButton").addEventListener("click", function (e) {
+            e.preventDefault();
+
+            const password = document.getElementById("password").value;
+            const password2 = document.getElementById("password2").value;
+            const errorDiv = document.getElementById("password-errors");
+
+            const minLength = /.{8,}/;
+            const upper = /[A-Z]/;
+            const lower = /[a-z]/;
+            const number = /[0-9]/;
+            const special = /[!@#$%^&*(),.?":{}|<>]/;
+
+            let errors = [];
+
+            if (!minLength.test(password)) errors.push("La contraseña debe tener al menos 8 caracteres.");
+            if (!upper.test(password)) errors.push("La contraseña debe contener al menos una mayúscula.");
+            if (!lower.test(password)) errors.push("La contraseña debe contener al menos una minúscula.");
+            if (!number.test(password)) errors.push("La contraseña debe contener al menos un número.");
+            if (!special.test(password)) errors.push("La contraseña debe contener al menos un carácter especial.");
+            if (password !== password2) errors.push("Las contraseñas no coinciden.");
+
+            if (errors.length > 0) {
+                errorDiv.innerHTML = errors.join("<br>");
+                errorDiv.classList.remove("d-none");
+                return;
+            } else {
+                errorDiv.classList.add("d-none");
+            }
+
+            this.textContent = "Registro de usuario exitoso";
+            this.disabled = true;
+
+            setTimeout(() => {
+                this.textContent = "Registrarse";
+                this.disabled = false;
+                // e.target.form.submit();
+            }, 2000);
+        });
+
 
 
     </script>

@@ -82,6 +82,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
+                    <div id="password-errors" class="alert alert-danger mt-3 d-none" role="alert">
+                    </div>
                     <form id="formEditarPerfil">
                         <!-- Vista previa de imagen -->
                         <div class="mb-3 text-center">
@@ -172,9 +174,10 @@
                             </div>
                         </div>
 
-                        <!-- Botón registrar -->
+                        <!-- Botón actualizar -->
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-dark btn-sm w-100">Actualizar</button>
+                            <button id="updateButton" type="submit"
+                                class="btn btn-dark btn-sm w-100">Actualizar</button>
                         </div>
                     </form>
                 </div>
@@ -230,7 +233,6 @@
     <div class="container my-5 profile-content">
         <div class="row">
             <div class="col-lg-8 mb-4">
-                <!-- Aquí va tu bucle de posts -->
                 <div class="post-card-wrapper rounded ">
                     <div class="card post-card shadow-lg p-3">
                         <div class="card-body">
@@ -363,6 +365,49 @@
 
             container.appendChild(newSelect);
         });
+
+        //Validate password
+        document.getElementById("updateButton").addEventListener("click", function (e) {
+            e.preventDefault();
+
+            const password = document.getElementById("password").value;
+            const password2 = document.getElementById("password2").value;
+            const errorDiv = document.getElementById("password-errors");
+
+            const minLength = /.{8,}/;
+            const upper = /[A-Z]/;
+            const lower = /[a-z]/;
+            const number = /[0-9]/;
+            const special = /[!@#$%^&*(),.?":{}|<>]/;
+
+            let errors = [];
+
+            if (!minLength.test(password)) errors.push("La contraseña debe tener al menos 8 caracteres.");
+            if (!upper.test(password)) errors.push("La contraseña debe contener al menos una mayúscula.");
+            if (!lower.test(password)) errors.push("La contraseña debe contener al menos una minúscula.");
+            if (!number.test(password)) errors.push("La contraseña debe contener al menos un número.");
+            if (!special.test(password)) errors.push("La contraseña debe contener al menos un carácter especial.");
+            if (password !== password2) errors.push("Las contraseñas no coinciden.");
+
+            if (errors.length > 0) {
+                errorDiv.innerHTML = errors.join("<br>");
+                errorDiv.classList.remove("d-none");
+                return;
+            } else {
+                errorDiv.classList.add("d-none");
+            }
+
+            this.textContent = "Registro de usuario exitoso";
+            this.disabled = true;
+
+            setTimeout(() => {
+                this.textContent = "Registrarse";
+                this.disabled = false;
+                // e.target.form.submit();
+            }, 2000);
+        });
+
+
     </script>
 </body>
 
