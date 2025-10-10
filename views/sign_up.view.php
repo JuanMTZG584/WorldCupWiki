@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="../public/css/all.min.css">
     <link rel="stylesheet" href="../public/css/style.css">
 </head>
+
 <body>
     <div class="background bg-dark">
         <img src="../public/resources/photo-1434648957308-5e6a859697e8.jpg" alt="Fondo">
@@ -59,10 +61,13 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="pais" class="form-label">País</label>
-                                    <select class="form-select form-select-sm" id="pais" required>
-                                        <option value="" selected disabled>Seleccione un país</option>
-                                        <option value="mx">México</option>
-                                        <option value="us">EE. UU.</option>
+                                    <select class="form-select form-select-sm" id="pais" name="pais" required>
+                                        <option value="" disabled selected>Seleccione un país</option>
+                                        <?php foreach ($countries as $country): ?>
+                                            <option value="<?= htmlspecialchars($country['cca2']) ?>">
+                                                <?= htmlspecialchars($country['name']['common']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
                                     </select>
                                 </div>
                             </div>
@@ -70,8 +75,20 @@
                             <div class="row gx-2 mb-3">
                                 <div class="col-md-6">
                                     <label for="nacionalidad" class="form-label">Nacionalidad</label>
-                                    <input type="text" class="form-control form-control-sm" id="nacionalidad"
-                                        placeholder="Nacionalidad">
+                                    <div id="nacionalidades-container">
+                                        <select class="form-select form-select-sm mb-2" name="nacionalidad[]">
+                                            <option value="" disabled selected>Seleccione un país</option>
+                                            <?php foreach ($countries as $country): ?>
+                                                <option value="<?= htmlspecialchars($country['cca2']) ?>">
+                                                    <?= htmlspecialchars($country['name']['common']) ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <button type="button" id="addNacionalidad"
+                                        class="btn btn-dark btn-sm mt-1">
+                                        Agregar otra nacionalidad
+                                    </button>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="genero" class="form-label">Género</label>
@@ -99,7 +116,8 @@
 
                             <!-- Botón registrar -->
                             <div class="d-grid">
-                                <button id="registerButton" type="submit" class="btn btn-dark btn-sm w-100">Registrarse</button>
+                                <button id="registerButton" type="submit"
+                                    class="btn btn-dark btn-sm w-100">Registrarse</button>
                             </div>
                         </form>
 
@@ -149,6 +167,19 @@
                 this.disabled = false;
             }, 2000);
         });
+
+        //Dynamically add combobox to select nationality
+        document.getElementById("addNacionalidad").addEventListener("click", function () {
+            const container = document.getElementById("nacionalidades-container");
+
+            const firstSelect = container.querySelector("select");
+            const newSelect = firstSelect.cloneNode(true);
+            newSelect.selectedIndex = 0;
+
+            container.appendChild(newSelect);
+        });
+
+
     </script>
 </body>
 
