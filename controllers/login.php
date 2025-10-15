@@ -1,7 +1,13 @@
 <?php
-$page ='login';
 
-$currentPage=$_SERVER['REQUEST_URI'];
+$requestMethod = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+
+if($requestMethod === 'GET'){
+    $page = 'Login';
+
+    $currentPage = $_SERVER['REQUEST_URI'];
+
+    require 'views/login.view.php';
+}
 
 
-require 'views/login.view.php';

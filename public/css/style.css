@@ -141,7 +141,7 @@
         z-index: 10;
     }
 
-   
+
     .swiper-button-prev {
         left: 10px;
     }
@@ -258,3 +258,28 @@
         margin-bottom: 1rem;
         font-weight: bold;
     }
+
+    /*Make sure dropdowns are clickable*/
+    .dropdown-item {
+        padding: 0.5rem 1rem;
+        width: 100%;
+    }
+
+    .dropdown-item:hover {
+        background-color: #f8f9fa;
+    }
+
+    .dropdown-menu {
+        position: absolute !important;
+        z-index: 99999 !important;
+    }
+
+    .navbar {
+  position: relative;
+  z-index: 1000;
+}
+
+.dropdown-menu {
+  position: absolute !important;
+  z-index: 1050 !important;
+}

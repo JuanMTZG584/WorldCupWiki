@@ -27,8 +27,8 @@
                         <div class="d-flex align-items-center justify-content-center h-100">
                             <div class="col-10 col-xl-8 py-3">
 
-                                <img class="img-fluid rounded mb-4 logo-img" loading="lazy" src="../public/resources/WCW-Logo.svg"
-                                    width="245" height="80" alt="Logo">
+                                <img class="img-fluid rounded mb-4 logo-img" loading="lazy"
+                                    src="../public/resources/WCW-Logo.svg" width="245" height="80" alt="Logo">
 
                                 <hr class="mb-4">
 
@@ -44,17 +44,17 @@
                     <div class="col-12 col-md-6  ">
                         <div class="card-body p-3 p-md-4 p-xl-5 shadow-lg ">
 
+
                             <div class="mb-5 ">
                                 <h3>Inicia sesión ahora</h3>
                             </div>
 
-                            <a href="/"
-                                class="position-absolute top-0 end-0 m-3 text-dark text-decoration-none">
+                            <a href="/" class="position-absolute top-0 end-0 m-3 text-dark text-decoration-none">
                                 <i class="fa-solid fa-x fa-lg" aria-hidden="true"></i>
                             </a>
 
-
-                            <form action="#!">
+                            <div id="statusMessage" class="alert d-none text-center" role="alert"></div>
+                            <form action="/login" method="POST" id="loginForm">
 
                                 <div class="row gy-3 gy-md-4 overflow-hidden">
 
@@ -85,6 +85,8 @@
                                 </div>
                             </form>
 
+
+
                             <div class="row mt-4">
                                 <div class="col-12">
                                     <hr class="border-dark mb-4">
@@ -103,17 +105,47 @@
 
     <script src="../public/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById("loginButton").addEventListener("click", function () {
-           
-            this.textContent = "Inicio de sesión exitoso";
-            this.disabled = true;
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-            setTimeout(() => {
-                this.textContent = "Iniciar Sesión";
-                this.disabled = false; 
-            }, 2000);
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const statusBox = document.getElementById('statusMessage');
+
+
+            statusBox.classList.add('d-none');
+
+            try {
+                const res = await fetch('http://localhost:8000/api/v1/user', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await res.json();
+
+                statusBox.classList.remove('d-none');
+                statusBox.classList.add('alert', 'text-center');
+
+                if (data.success) {
+                    statusBox.classList.remove('alert-danger');
+                    statusBox.classList.add('alert-success');
+                    statusBox.textContent = data.message || 'Inicio de sesión exitoso';
+                    setTimeout(() => window.location.href = '/', 1500);
+                } else {
+                    statusBox.classList.remove('alert-success');
+                    statusBox.classList.add('alert-danger');
+                    statusBox.textContent = data.error || 'Credenciales inválidas';
+                }
+
+            } catch (err) {
+                statusBox.classList.remove('d-none');
+                statusBox.classList.add('alert', 'alert-danger', 'text-center');
+                statusBox.textContent = 'Error de conexión con el servidor.';
+            }
         });
     </script>
+
 </body>
 
 </html>

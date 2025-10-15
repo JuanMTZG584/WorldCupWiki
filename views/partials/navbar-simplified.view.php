@@ -1,6 +1,6 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
         <div class="container-fluid justify-content-lg-center">
-            <a class="navbar-brand ps-3 pe-3" href="index.view.php">
+            <a class="navbar-brand ps-3 pe-3" href="/">
                 <img src="../public/resources/WCW-Logo.svg" alt="Logo" id="logo-nav">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
