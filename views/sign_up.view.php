@@ -164,19 +164,16 @@
             reader.readAsDataURL(event.target.files[0]);
         }
 
-        //Dynamically add combobox to select nationality
+        //ADD A NATIONALITY
         document.getElementById("addNacionalidad").addEventListener("click", function () {
             const container = document.getElementById("nacionalidades-container");
-
             const firstSelect = container.querySelector("select");
             const newSelect = firstSelect.cloneNode(true);
             newSelect.selectedIndex = 0;
-
             container.appendChild(newSelect);
         });
 
-        //Validate password
-        document.getElementById("registerButton").addEventListener("click", function (e) {
+        document.getElementById("registerButton").addEventListener("click", async function (e) {
             e.preventDefault();
 
             const password = document.getElementById("password").value;
@@ -190,7 +187,6 @@
             const special = /[!@#$%^&*(),.?":{}|<>]/;
 
             let errors = [];
-
             if (!minLength.test(password)) errors.push("La contraseña debe tener al menos 8 caracteres.");
             if (!upper.test(password)) errors.push("La contraseña debe contener al menos una mayúscula.");
             if (!lower.test(password)) errors.push("La contraseña debe contener al menos una minúscula.");
@@ -206,19 +202,57 @@
                 errorDiv.classList.add("d-none");
             }
 
-            this.textContent = "Registro de usuario exitoso";
-            this.disabled = true;
+          
+            const formData = new FormData();
+            formData.append("nombre", document.getElementById("nombre").value);
+            formData.append("correo", document.getElementById("correo").value);
+            formData.append("fecha_nacimiento", document.getElementById("fecha").value);
+            formData.append("pais", document.getElementById("pais").value);
+            formData.append("genero", document.getElementById("genero").value);
+            formData.append("password", password);
 
-            setTimeout(() => {
-                this.textContent = "Registrarse";
-                this.disabled = false;
-                // e.target.form.submit();
-            }, 2000);
+            
+            const photoInput = document.getElementById("profile-image");
+            if (photoInput.files.length > 0) {
+                formData.append("photo", photoInput.files[0]);
+            }
+
+            
+            const nacionalidades = Array.from(document.querySelectorAll("select[name='nacionalidad[]']"))
+                .map(s => s.value)
+                .filter(v => v);
+            formData.append("nacionalidad", nacionalidades.join(",")); 
+
+           
+            try {
+                const res = await fetch("/api/v1/sign_up", {
+                    method: "POST",
+                    body: formData
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    errorDiv.classList.remove("alert-danger");
+                    errorDiv.classList.add("alert-success");
+                    errorDiv.textContent = data.message;
+                    errorDiv.classList.remove("d-none");
+
+                    setTimeout(() => window.location.href = "login", 1500);
+                } else {
+                    errorDiv.classList.remove("alert-success");
+                    errorDiv.classList.add("alert-danger");
+                    errorDiv.textContent = data.error || "Error al registrar usuario";
+                    errorDiv.classList.remove("d-none");
+                }
+            } catch (err) {
+                errorDiv.classList.remove("d-none");
+                errorDiv.classList.add("alert-danger");
+                errorDiv.textContent = "Error de conexión con el servidor.";
+            }
         });
 
-
-
     </script>
+
 </body>
 
 </html>

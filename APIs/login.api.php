@@ -3,29 +3,53 @@ session_start();
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 
-// Permitir solo método POST
+use Core\Database;
+$config = require './core/config.php';
+$db = new Database($config['db']['connection1']);
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['error' => 'Método no permitido']);
     exit;
 }
 
-
 $input = json_decode(file_get_contents('php://input'), true);
 $username = $input['username'] ?? ($_POST['username'] ?? '');
 $password = $input['password'] ?? ($_POST['password'] ?? '');
 
-//EJEMPLO DE USO
-if ($username === 'admin' && $password === 'password') {
-    $_SESSION['user_id'] = 1;
-    echo json_encode([
-        'success' => true,
-        'message' => 'Inicio de sesión exitoso'
-    ]);
-} else {
-    http_response_code(401);
-    echo json_encode([
-        'success' => false,
-        'error' => 'Credenciales inválidas'
-    ]);
+if (empty($username) || empty($password)) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'error' => 'Usuario y contraseña requeridos']);
+    exit;
+}
+
+try {
+    $result = $db->callProcedure('sp_get_usuario_por_nombre', ['p_nombre' => $username]);
+    $usuario = $result[0] ?? null;
+
+    if ($usuario && $usuario['ESTATUS']) {
+        if (password_verify($password, $usuario['PASSWORD'])) {
+            $_SESSION['user_id'] = $usuario['ID'];
+            $_SESSION['user_name'] = $usuario['NOMBRE'];
+            $_SESSION['user_photo'] = base64_encode($usuario['FOTO']);
+            $_SESSION['is_admin'] = ($usuario['ID'] == 1);
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Inicio de sesión exitoso',
+                'user_id' => $usuario['ID'],
+                'photo' => base64_encode($usuario['FOTO'])
+            ]);
+        } else {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'error' => 'Contraseña incorrecta']);
+        }
+    } else {
+        http_response_code(401);
+        echo json_encode(['success' => false, 'error' => 'Usuario no existe o inactivo']);
+    }
+
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'error' => 'Error en la conexión a la base de datos']);
 }
