@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Wold Cup Wiki - Inicio de Sesión</title>
+    <title>World Cup Wiki - Inicio de Sesión</title>
 
     <link rel="stylesheet" href="../public/css/bootstrap.min.css">
     <link rel="stylesheet" href="../public/css/all.min.css">
@@ -18,7 +18,7 @@
 
     <!-- Tarjeta -->
     <section class="p-3 p-md-4 p-xl-5 d-flex align-items-center min-vh-100 fade-in shadow-lg rounded">
-        <div class="container ">
+        <div class="container">
             <div class="card shadow-sm">
                 <div class="row g-0 rounded">
 
@@ -41,11 +41,10 @@
                     </div>
 
                     <!-- Lado derecho -->
-                    <div class="col-12 col-md-6  ">
-                        <div class="card-body p-3 p-md-4 p-xl-5 shadow-lg ">
+                    <div class="col-12 col-md-6">
+                        <div class="card-body p-3 p-md-4 p-xl-5 shadow-lg">
 
-
-                            <div class="mb-5 ">
+                            <div class="mb-5">
                                 <h3>Inicia sesión ahora</h3>
                             </div>
 
@@ -54,15 +53,17 @@
                             </a>
 
                             <div id="statusMessage" class="alert d-none text-center" role="alert"></div>
+
+                            <!-- Formulario -->
                             <form action="/login" method="POST" id="loginForm">
 
                                 <div class="row gy-3 gy-md-4 overflow-hidden">
 
                                     <div class="col-12">
-                                        <label for="username" class="form-label">Usuario <span
+                                        <label for="correo" class="form-label">Correo Electrónico <span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" name="username" id="username"
-                                            placeholder="Ingrese nombre de usuario" required>
+                                        <input type="email" class="form-control" name="correo" id="correo"
+                                            placeholder="Ingrese su correo" required>
                                     </div>
 
                                     <div class="col-12">
@@ -70,9 +71,6 @@
                                                 class="text-danger">*</span></label>
                                         <input type="password" class="form-control" name="password" id="password"
                                             placeholder="Ingrese contraseña" required>
-                                    </div>
-
-                                    <div class="col-12">
                                     </div>
 
                                     <div class="col-12">
@@ -84,8 +82,6 @@
 
                                 </div>
                             </form>
-
-
 
                             <div class="row mt-4">
                                 <div class="col-12">
@@ -108,10 +104,9 @@
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const username = document.getElementById('username').value.trim();
+            const correo = document.getElementById('correo').value.trim();
             const password = document.getElementById('password').value.trim();
             const statusBox = document.getElementById('statusMessage');
-
 
             statusBox.classList.add('d-none');
 
@@ -119,7 +114,7 @@
                 const res = await fetch('http://localhost:8000/api/v1/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
+                    body: JSON.stringify({ correo, password })
                 });
 
                 const data = await res.json();

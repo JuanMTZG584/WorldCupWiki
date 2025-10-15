@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 ?><nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
   <div class="container-fluid justify-content-lg-center">
     <a class="navbar-brand ps-3 pe-3" href="/">

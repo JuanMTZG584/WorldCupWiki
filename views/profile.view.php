@@ -223,7 +223,6 @@
                     <h5>Estadísticas</h5>
                     <p><strong>Publicaciones:</strong> 45</p>
                     <p><strong>Me gusta:</strong> 120</p>
-                    <p><strong>Comentarios:</strong> 75</p>
                 </div>
             </div>
         </div>
