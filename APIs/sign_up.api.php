@@ -33,6 +33,34 @@ if (empty($nombre) || empty($correo) || empty($fecha) || empty($pais) || empty($
     exit;
 }
 
+$errors = [];
+if (!preg_match('/.{8,}/', $password))
+    $errors[] = "La contraseña debe tener al menos 8 caracteres.";
+if (!preg_match('/[A-Z]/', $password))
+    $errors[] = "La contraseña debe contener al menos una mayúscula.";
+if (!preg_match('/[a-z]/', $password))
+    $errors[] = "La contraseña debe contener al menos una minúscula.";
+if (!preg_match('/[0-9]/', $password))
+    $errors[] = "La contraseña debe contener al menos un número.";
+if (!preg_match('/[!@#$%^&*(),.?\":{}|<>]/', $password))
+    $errors[] = "La contraseña debe contener al menos un carácter especial.";
+
+if ($errors) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'error' => implode(' ', $errors)]);
+    exit;
+}
+
+$nacimiento = new DateTime($fecha);
+$hoy = new DateTime();
+$edad = $hoy->diff($nacimiento)->y;
+
+if ($edad < 12) {
+    http_response_code(403);
+    echo json_encode(['success' => false, 'error' => 'Debes tener al menos 12 años para registrarte']);
+    exit;
+}
+
 $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
 try {
@@ -47,8 +75,17 @@ try {
         'p_foto' => $photoData
     ]);
 
-    echo json_encode(['success' => true, 'message' => 'Usuario registrado correctamente']);
+    $_SESSION['edad'] = $edad;
+
+    echo json_encode(['success' => true, 'message' => 'Usuario registrado correctamente', 'edad' => $edad]);
+
 } catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode(['success' => false, 'error' => 'Error al registrar usuario']);
+    // Detectar si el error es por correo duplicado
+    if (strpos($e->getMessage(), 'El correo ya está registrado') !== false) {
+        http_response_code(409);
+        echo json_encode(['success' => false, 'error' => 'El correo ya está registrado']);
+    } else {
+        http_response_code(500);
+        echo json_encode(['success' => false, 'error' => 'Error al registrar usuario']);
+    }
 }

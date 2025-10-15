@@ -178,7 +178,10 @@
 
             const password = document.getElementById("password").value;
             const password2 = document.getElementById("password2").value;
+            const fechaNacimiento = document.getElementById("fecha").value;
             const errorDiv = document.getElementById("password-errors");
+
+            let errors = [];
 
             const minLength = /.{8,}/;
             const upper = /[A-Z]/;
@@ -186,13 +189,25 @@
             const number = /[0-9]/;
             const special = /[!@#$%^&*(),.?":{}|<>]/;
 
-            let errors = [];
             if (!minLength.test(password)) errors.push("La contraseña debe tener al menos 8 caracteres.");
             if (!upper.test(password)) errors.push("La contraseña debe contener al menos una mayúscula.");
             if (!lower.test(password)) errors.push("La contraseña debe contener al menos una minúscula.");
             if (!number.test(password)) errors.push("La contraseña debe contener al menos un número.");
             if (!special.test(password)) errors.push("La contraseña debe contener al menos un carácter especial.");
             if (password !== password2) errors.push("Las contraseñas no coinciden.");
+
+            if (fechaNacimiento) {
+                const nacimiento = new Date(fechaNacimiento);
+                const hoy = new Date();
+                let edad = hoy.getFullYear() - nacimiento.getFullYear();
+                const mesDiff = hoy.getMonth() - nacimiento.getMonth();
+                if (mesDiff < 0 || (mesDiff === 0 && hoy.getDate() < nacimiento.getDate())) {
+                    edad--;
+                }
+                if (edad < 12) errors.push("Debes tener al menos 12 años para registrarte.");
+            } else {
+                errors.push("Debes ingresar tu fecha de nacimiento.");
+            }
 
             if (errors.length > 0) {
                 errorDiv.innerHTML = errors.join("<br>");
@@ -202,28 +217,24 @@
                 errorDiv.classList.add("d-none");
             }
 
-          
             const formData = new FormData();
             formData.append("nombre", document.getElementById("nombre").value);
             formData.append("correo", document.getElementById("correo").value);
-            formData.append("fecha_nacimiento", document.getElementById("fecha").value);
+            formData.append("fecha_nacimiento", fechaNacimiento);
             formData.append("pais", document.getElementById("pais").value);
             formData.append("genero", document.getElementById("genero").value);
             formData.append("password", password);
 
-            
             const photoInput = document.getElementById("profile-image");
             if (photoInput.files.length > 0) {
                 formData.append("photo", photoInput.files[0]);
             }
 
-            
             const nacionalidades = Array.from(document.querySelectorAll("select[name='nacionalidad[]']"))
                 .map(s => s.value)
                 .filter(v => v);
-            formData.append("nacionalidad", nacionalidades.join(",")); 
+            formData.append("nacionalidad", nacionalidades.join(","));
 
-           
             try {
                 const res = await fetch("/api/v1/sign_up", {
                     method: "POST",
@@ -250,7 +261,6 @@
                 errorDiv.textContent = "Error de conexión con el servidor.";
             }
         });
-
     </script>
 
 </body>
