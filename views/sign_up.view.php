@@ -93,6 +93,10 @@
                                     <button type="button" id="addNacionalidad" class="btn btn-dark btn-sm mt-1">
                                         Agregar otra nacionalidad
                                     </button>
+                                    <button type="button" id="removeNacionalidad"
+                                        class="btn btn-danger btn-sm mt-1 ms-2">
+                                        Quitar última nacionalidad
+                                    </button>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="genero" class="form-label">Género</label>
@@ -172,7 +176,18 @@
             newSelect.selectedIndex = 0;
             container.appendChild(newSelect);
         });
+        //DELETE A NATIONALITY
+        document.getElementById("removeNacionalidad").addEventListener("click", function () {
+            const container = document.getElementById("nacionalidades-container");
+            const selects = container.querySelectorAll("select[name='nacionalidad[]']");
+            if (selects.length > 1) {
+                selects[selects.length - 1].remove();
+            } else {
+                alert("Debe quedar al menos una nacionalidad.");
+            }
+        });
 
+        //REGISTER // CALL TO API
         document.getElementById("registerButton").addEventListener("click", async function (e) {
             e.preventDefault();
 

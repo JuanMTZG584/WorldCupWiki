@@ -18,5 +18,6 @@ $router->add('/verify_age', 'controllers/age_auth.php');
 //APIs routes
 $router->add('/api/v1/login', 'APIs/login.api.php');
 $router->add('/api/v1/sign_up', 'APIs/sign_up.api.php');
+$router->add('/api/v1/profile', 'APIs/see_profile.api.php');
 
 $router->dispatch($_SERVER['REQUEST_URI']);

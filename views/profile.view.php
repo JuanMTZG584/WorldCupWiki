@@ -98,18 +98,11 @@
                                 onchange="previewImage(event)" required>
                         </div>
 
-                        <!-- Nombre y Correo -->
-                        <div class="row gx-2 mb-3">
-                            <div class="col-md-6">
-                                <label for="nombre" class="form-label">Nombre Completo</label>
-                                <input type="text" class="form-control form-control-sm" id="nombre"
-                                    placeholder="Nombre Completo" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="correo" class="form-label">Correo Electrónico</label>
-                                <input type="email" class="form-control form-control-sm" id="correo"
-                                    placeholder="Correo Electrónico" required>
-                            </div>
+                        <!-- Nombre-->
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre Completo</label>
+                            <input type="text" class="form-control form-control-sm" id="nombre"
+                                placeholder="Nombre Completo" required>
                         </div>
 
                         <!-- Fecha de nacimiento y País -->
@@ -145,9 +138,19 @@
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
-                                <button type="button" id="addNacionalidad" class="btn btn-dark btn-sm mt-1">
-                                    Agregar otra nacionalidad
-                                </button>
+                                <div class="row mt-2">
+                                    <div class="col-6">
+                                        <button type="button" id="addNacionalidad" class="btn btn-dark btn-sm w-100">
+                                            Agregar
+                                        </button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" id="removeNacionalidad"
+                                            class="btn btn-danger btn-sm w-100">
+                                            Quitar
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <label for="genero" class="form-label">Género</label>
@@ -213,16 +216,16 @@
             <div class="col-md-6">
                 <div class="card p-4 shadow-sm profile-card">
                     <h5>Información de contacto</h5>
-                    <p><strong>Correo:</strong> juan@mail.com</p>
-                    <p><strong>Género:</strong> Masculino</p>
-                    <p><strong>Contraseña:</strong> ********</p>
+                    <p id="contact-correo"><strong>Correo:</strong> --</p>
+                    <p id="contact-genero"><strong>Género:</strong> --</p>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="card p-4 shadow-sm profile-card">
                     <h5>Estadísticas</h5>
-                    <p><strong>Publicaciones:</strong> 45</p>
-                    <p><strong>Me gusta:</strong> 120</p>
+                    <p id="stat-publicaciones"><strong>Publicaciones:</strong> </p>
+                    <p id="stat-likes"><strong>Me gusta:</strong> </p>
+                    <p id="stat-vistas"><strong>Vistas totales:</strong> </p>
                 </div>
             </div>
         </div>
@@ -354,16 +357,100 @@
     <script src="../public/js/bootstrap.bundle.min.js"></script>
     <script src="../public/js/controls.script.js"></script>
     <script>
-        //Dynamically add combobox to select nationality
+        async function loadUserProfile() {
+            try {
+                const res = await fetch('http://localhost:8000/api/v1/profile');
+                const data = await res.json();
+
+                if (!data.success) {
+                    alert(data.error);
+                    return;
+                }
+
+                const user = data.data;
+
+                document.querySelector('.profile-pic img').src = user.FOTO || '../public/resources/64572.png';
+                document.querySelector('.profile-hero h1').textContent = user.NOMBRE || '';
+                document.querySelector('.profile-hero .lead').innerHTML = `
+            <i class="fas fa-calendar-alt me-2"></i>${user.FECHA_NACIMIENTO || ''}
+            <i class="fas fa-map-marker-alt ms-4 me-2"></i>${user.PAIS || ''}
+            <i class="fas fa-flag ms-4 me-2"></i>${user.NACIONALIDAD || ''}
+        `;
+
+                document.getElementById('stat-publicaciones').innerHTML = `<strong>Publicaciones:</strong> ${user.PUBLICACIONESCUENTA || 0}`;
+                document.getElementById('stat-likes').innerHTML = `<strong>Me gusta:</strong> ${user.LIKESCUENTA || 0}`;
+                document.getElementById('stat-vistas').innerHTML = `<strong>Vistas totales:</strong> ${user.VISTASCUENTA || 0}`;
+
+                document.getElementById('contact-correo').innerHTML = `<strong>Correo:</strong> ${user.CORREO || '--'}`;
+                document.getElementById('contact-genero').innerHTML = `<strong>Género:</strong> ${user.GENERO || '--'}`;
+
+                document.getElementById('image-preview').src = user.FOTO || '../public/resources/64572.png';
+                document.getElementById('nombre').value = user.NOMBRE || '';
+                document.getElementById('fecha').value = user.FECHA_NACIMIENTO || '';
+                document.getElementById('pais').value = user.PAIS || '';
+                document.getElementById('genero').value = user.GENERO || '';
+                document.getElementById('password').value = '';
+                document.getElementById('password2').value = '';
+
+
+                const nacionalidades = (user.NACIONALIDAD || '').split(','); // ["MEX","USA",...]
+                const container = document.getElementById("nacionalidades-container");
+
+                container.querySelectorAll("select").forEach((s, i) => { if (i > 0) s.remove(); });
+
+                nacionalidades.forEach((nac, index) => {
+                    let select;
+                    if (index === 0) {
+                        select = container.querySelector("select[name='nacionalidad[]']");
+                    } else {
+                        select = container.querySelector("select[name='nacionalidad[]']").cloneNode(true);
+                        container.appendChild(select);
+                    }
+                    select.value = nac;
+                });
+
+
+
+            } catch (err) {
+                console.error('Error cargando el perfil:', err);
+            }
+        }
+
+        loadUserProfile();
+
+    </script>
+
+    <script>
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                const preview = document.getElementById('image-preview');
+                preview.src = reader.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        //ADD A NATIONALITY
         document.getElementById("addNacionalidad").addEventListener("click", function () {
             const container = document.getElementById("nacionalidades-container");
-
             const firstSelect = container.querySelector("select");
             const newSelect = firstSelect.cloneNode(true);
             newSelect.selectedIndex = 0;
-
             container.appendChild(newSelect);
         });
+        //DELETE A NATIONALITY
+        document.getElementById("removeNacionalidad").addEventListener("click", function () {
+            const container = document.getElementById("nacionalidades-container");
+            const selects = container.querySelectorAll("select[name='nacionalidad[]']");
+            if (selects.length > 1) {
+                selects[selects.length - 1].remove();
+            } else {
+                alert("Debe quedar al menos una nacionalidad.");
+            }
+        });
+
+
 
         //Validate password
         document.getElementById("updateButton").addEventListener("click", function (e) {
