@@ -80,7 +80,6 @@ try {
     echo json_encode(['success' => true, 'message' => 'Usuario registrado correctamente', 'edad' => $edad]);
 
 } catch (Exception $e) {
-    // Detectar si el error es por correo duplicado
     if (strpos($e->getMessage(), 'El correo ya está registrado') !== false) {
         http_response_code(409);
         echo json_encode(['success' => false, 'error' => 'El correo ya está registrado']);

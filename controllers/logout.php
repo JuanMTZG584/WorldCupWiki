@@ -4,7 +4,7 @@ session_start();
 
 $_SESSION = [];
 
-//Erase cookies
+//DELETE ALL COOKIES
 if (ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();
     setcookie(

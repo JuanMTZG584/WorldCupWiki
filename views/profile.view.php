@@ -84,39 +84,42 @@
                 <div class="modal-body">
                     <div id="password-errors" class="alert alert-danger mt-3 d-none" role="alert">
                     </div>
-                    <form id="formEditarPerfil">
+                    <form id="formEditarPerfil" enctype="multipart/form-data" method="POST">
                         <!-- Vista previa de imagen -->
                         <div class="mb-3 text-center">
-                            <img id="image-preview" src="" alt="Vista previa de la imagen" class="img-fluid"
-                                style="max-height:150px;">
+                            <img id="image-preview"
+                                src="<?= htmlspecialchars($foto ?? '../public/resources/64572.png') ?>"
+                                alt="Vista previa de la imagen" class="img-fluid" style="max-height:150px;">
                         </div>
 
                         <!-- Imagen de perfil -->
                         <div class="mb-3">
                             <label for="profile-image" class="form-label">Imagen de perfil</label>
-                            <input type="file" class="form-control form-control-sm" id="profile-image" accept="image/*"
-                                onchange="previewImage(event)" required>
+                            <input type="file" class="form-control form-control-sm" id="profile-image"
+                                name="profile-image" accept="image/*" onchange="previewImage(event)">
                         </div>
 
-                        <!-- Nombre-->
+                        <!-- Nombre -->
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre Completo</label>
-                            <input type="text" class="form-control form-control-sm" id="nombre"
-                                placeholder="Nombre Completo" required>
+                            <input type="text" class="form-control form-control-sm" id="nombre" name="nombre"
+                                placeholder="Nombre Completo" value="<?= htmlspecialchars($nombre ?? '') ?>" required>
                         </div>
 
                         <!-- Fecha de nacimiento y País -->
                         <div class="row gx-2 mb-3">
                             <div class="col-md-6">
                                 <label for="fecha" class="form-label">Fecha de Nacimiento</label>
-                                <input type="date" class="form-control form-control-sm" id="fecha" required>
+                                <input type="date" class="form-control form-control-sm" id="fecha" name="fecha"
+                                    value="<?= htmlspecialchars($fecha_nac ?? '') ?>" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="pais" class="form-label">País</label>
                                 <select class="form-select form-select-sm" id="pais" name="pais" required>
-                                    <option value="" disabled selected>Seleccione un país</option>
-                                    <?php foreach ($countries as $country): ?>
-                                        <option value="<?= htmlspecialchars($country['cca2']) ?>">
+                                    <option value="" disabled>Seleccione un país</option>
+                                    <?php foreach ($countries as $country):
+                                        $selected = ($pais ?? '') === $country['cca2'] ? 'selected' : ''; ?>
+                                        <option value="<?= htmlspecialchars($country['cca2']) ?>" <?= $selected ?>>
                                             <?= htmlspecialchars($country['name']['common']) ?>
                                         </option>
                                     <?php endforeach; ?>
@@ -129,15 +132,30 @@
                             <div class="col-md-6">
                                 <label for="nacionalidad" class="form-label">Nacionalidad</label>
                                 <div id="nacionalidades-container">
-                                    <select class="form-select form-select-sm mb-2" name="nacionalidad[]">
-                                        <option value="" disabled selected>Seleccione un país</option>
-                                        <?php foreach ($countries as $country): ?>
-                                            <option value="<?= htmlspecialchars($country['cca2']) ?>">
-                                                <?= htmlspecialchars($country['name']['common']) ?>
-                                            </option>
+                                    <?php if (!empty($nacionalidades)): ?>
+                                        <?php foreach ($nacionalidades as $nac): ?>
+                                            <select class="form-select form-select-sm mb-2" name="nacionalidad[]">
+                                                <option value="" disabled>Seleccione un país</option>
+                                                <?php foreach ($countries as $country):
+                                                    $selected = (trim($nac) === $country['cca2']) ? 'selected' : ''; ?>
+                                                    <option value="<?= htmlspecialchars($country['cca2']) ?>" <?= $selected ?>>
+                                                        <?= htmlspecialchars($country['name']['common']) ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
                                         <?php endforeach; ?>
-                                    </select>
+                                    <?php else: ?>
+                                        <select class="form-select form-select-sm mb-2" name="nacionalidad[]">
+                                            <option value="" selected disabled>Seleccione un país</option>
+                                            <?php foreach ($countries as $country): ?>
+                                                <option value="<?= htmlspecialchars($country['cca2']) ?>">
+                                                    <?= htmlspecialchars($country['name']['common']) ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    <?php endif; ?>
                                 </div>
+
                                 <div class="row mt-2">
                                     <div class="col-6">
                                         <button type="button" id="addNacionalidad" class="btn btn-dark btn-sm w-100">
@@ -152,13 +170,15 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Género -->
                             <div class="col-md-6">
                                 <label for="genero" class="form-label">Género</label>
-                                <select class="form-select form-select-sm" id="genero">
-                                    <option value="" selected disabled>Seleccione género</option>
-                                    <option value="m">Masculino</option>
-                                    <option value="f">Femenino</option>
-                                    <option value="o">Otro</option>
+                                <select class="form-select form-select-sm" id="genero" name="genero" required>
+                                    <option value="" disabled>Seleccione género</option>
+                                    <option value="m" <?= ($genero ?? '') === 'm' ? 'selected' : '' ?>>Masculino</option>
+                                    <option value="f" <?= ($genero ?? '') === 'f' ? 'selected' : '' ?>>Femenino</option>
+                                    <option value="o" <?= ($genero ?? '') === 'o' ? 'selected' : '' ?>>Otro</option>
                                 </select>
                             </div>
                         </div>
@@ -168,21 +188,23 @@
                             <div class="col-md-6">
                                 <label for="password" class="form-label">Contraseña</label>
                                 <input type="password" class="form-control form-control-sm" id="password"
-                                    placeholder="Contraseña" required>
+                                    name="password" placeholder="Contraseña">
                             </div>
                             <div class="col-md-6">
                                 <label for="password2" class="form-label">Repetir Contraseña</label>
                                 <input type="password" class="form-control form-control-sm" id="password2"
-                                    placeholder="Repetir Contraseña" required>
+                                    name="password2" placeholder="Repetir Contraseña">
                             </div>
                         </div>
 
                         <!-- Botón actualizar -->
                         <div class="d-grid">
-                            <button id="updateButton" type="submit"
-                                class="btn btn-dark btn-sm w-100">Actualizar</button>
+                            <button id="updateButton" type="submit" class="btn btn-dark btn-sm w-100">
+                                Actualizar
+                            </button>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -190,46 +212,48 @@
 
     <!-- Navbar -->
     <?php include 'partials/navbar-simplified.view.php'; ?>
+
     <!-- Hero Perfil -->
     <section class="profile-hero">
-        <div class="container">
+        <div class="container text-center text-white">
             <div class="profile-pic mb-3">
-                <img src="../public/resources\64572.png" alt="Perfil">
+                <img src="<?= htmlspecialchars($foto ?? '../public/resources/64572.png') ?>" alt="Perfil"
+                    class="rounded-circle shadow" width="150" height="150">
             </div>
-            <h1 class="display-4">Juan Martínez</h1>
+            <h1 class="display-5"><?= htmlspecialchars($nombre ?? 'Usuario sin nombre') ?></h1>
             <p class="lead">
-                <i class="fas fa-calendar-alt me-2"></i>12/12/1990
-                <i class="fas fa-map-marker-alt ms-4 me-2"></i>México
-                <i class="fas fa-flag ms-4 me-2"></i>Mexicano
+                <i class="fas fa-calendar-alt me-2"></i><?= htmlspecialchars($fecha_nac ?? 'Sin fecha') ?>
+                <i class="fas fa-map-marker-alt ms-4 me-2"></i><?= htmlspecialchars($pais ?? '--') ?>
+                <i class="fas fa-flag ms-4 me-2"></i><?= htmlspecialchars(implode(', ', $nacionalidades ?? ['--'])) ?>
             </p>
             <button class="btn btn-success btn-lg btn-edit-profile" type="button" data-bs-toggle="modal"
                 data-bs-target="#modalEditarPerfil">
                 Editar Perfil
             </button>
-
         </div>
     </section>
-
     <!-- Info y Estadísticas -->
     <div class="container my-5 user-info">
         <div class="row g-4">
             <div class="col-md-6">
                 <div class="card p-4 shadow-sm profile-card">
                     <h5>Información de contacto</h5>
-                    <p id="contact-correo"><strong>Correo:</strong> --</p>
-                    <p id="contact-genero"><strong>Género:</strong> --</p>
+                    <p id="contact-correo"><strong>Correo:</strong> <?= htmlspecialchars($correo ?? '--') ?></p>
+                    <p id="contact-genero"><strong>Género:</strong> <?= htmlspecialchars($genero ?? '--') ?></p>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="card p-4 shadow-sm profile-card">
                     <h5>Estadísticas</h5>
-                    <p id="stat-publicaciones"><strong>Publicaciones:</strong> </p>
-                    <p id="stat-likes"><strong>Me gusta:</strong> </p>
-                    <p id="stat-vistas"><strong>Vistas totales:</strong> </p>
+                    <p id="stat-publicaciones"><strong>Publicaciones:</strong>
+                        <?= htmlspecialchars($publicaciones ?? 0) ?></p>
+                    <p id="stat-likes"><strong>Me gusta:</strong> <?= htmlspecialchars($likes ?? 0) ?></p>
+                    <p id="stat-vistas"><strong>Vistas totales:</strong> <?= htmlspecialchars($vistas ?? 0) ?></p>
                 </div>
             </div>
         </div>
     </div>
+
 
     <!-- Publicaciones e Interacciones -->
     <div class="container my-5 profile-content">
@@ -356,69 +380,7 @@
 
     <script src="../public/js/bootstrap.bundle.min.js"></script>
     <script src="../public/js/controls.script.js"></script>
-    <script>
-        async function loadUserProfile() {
-            try {
-                const res = await fetch('http://localhost:8000/api/v1/profile');
-                const data = await res.json();
 
-                if (!data.success) {
-                    alert(data.error);
-                    return;
-                }
-
-                const user = data.data;
-
-                document.querySelector('.profile-pic img').src = user.FOTO || '../public/resources/64572.png';
-                document.querySelector('.profile-hero h1').textContent = user.NOMBRE || '';
-                document.querySelector('.profile-hero .lead').innerHTML = `
-            <i class="fas fa-calendar-alt me-2"></i>${user.FECHA_NACIMIENTO || ''}
-            <i class="fas fa-map-marker-alt ms-4 me-2"></i>${user.PAIS || ''}
-            <i class="fas fa-flag ms-4 me-2"></i>${user.NACIONALIDAD || ''}
-        `;
-
-                document.getElementById('stat-publicaciones').innerHTML = `<strong>Publicaciones:</strong> ${user.PUBLICACIONESCUENTA || 0}`;
-                document.getElementById('stat-likes').innerHTML = `<strong>Me gusta:</strong> ${user.LIKESCUENTA || 0}`;
-                document.getElementById('stat-vistas').innerHTML = `<strong>Vistas totales:</strong> ${user.VISTASCUENTA || 0}`;
-
-                document.getElementById('contact-correo').innerHTML = `<strong>Correo:</strong> ${user.CORREO || '--'}`;
-                document.getElementById('contact-genero').innerHTML = `<strong>Género:</strong> ${user.GENERO || '--'}`;
-
-                document.getElementById('image-preview').src = user.FOTO || '../public/resources/64572.png';
-                document.getElementById('nombre').value = user.NOMBRE || '';
-                document.getElementById('fecha').value = user.FECHA_NACIMIENTO || '';
-                document.getElementById('pais').value = user.PAIS || '';
-                document.getElementById('genero').value = user.GENERO || '';
-                document.getElementById('password').value = '';
-                document.getElementById('password2').value = '';
-
-
-                const nacionalidades = (user.NACIONALIDAD || '').split(','); // ["MEX","USA",...]
-                const container = document.getElementById("nacionalidades-container");
-
-                container.querySelectorAll("select").forEach((s, i) => { if (i > 0) s.remove(); });
-
-                nacionalidades.forEach((nac, index) => {
-                    let select;
-                    if (index === 0) {
-                        select = container.querySelector("select[name='nacionalidad[]']");
-                    } else {
-                        select = container.querySelector("select[name='nacionalidad[]']").cloneNode(true);
-                        container.appendChild(select);
-                    }
-                    select.value = nac;
-                });
-
-
-
-            } catch (err) {
-                console.error('Error cargando el perfil:', err);
-            }
-        }
-
-        loadUserProfile();
-
-    </script>
 
     <script>
         function previewImage(event) {
@@ -452,13 +414,16 @@
 
 
 
-        //Validate password
-        document.getElementById("updateButton").addEventListener("click", function (e) {
+        //CALL TO API TO UPDATE USER DATA
+        document.getElementById("updateButton").addEventListener("click", async function (e) {
             e.preventDefault();
 
             const password = document.getElementById("password").value;
             const password2 = document.getElementById("password2").value;
+            const fechaNacimiento = document.getElementById("fecha").value;
             const errorDiv = document.getElementById("password-errors");
+
+            let errors = [];
 
             const minLength = /.{8,}/;
             const upper = /[A-Z]/;
@@ -466,14 +431,27 @@
             const number = /[0-9]/;
             const special = /[!@#$%^&*(),.?":{}|<>]/;
 
-            let errors = [];
+            if (password) {
+                if (!minLength.test(password)) errors.push("La contraseña debe tener al menos 8 caracteres.");
+                if (!upper.test(password)) errors.push("La contraseña debe contener al menos una mayúscula.");
+                if (!lower.test(password)) errors.push("La contraseña debe contener al menos una minúscula.");
+                if (!number.test(password)) errors.push("La contraseña debe contener al menos un número.");
+                if (!special.test(password)) errors.push("La contraseña debe contener al menos un carácter especial.");
+                if (password !== password2) errors.push("Las contraseñas no coinciden.");
+            }
 
-            if (!minLength.test(password)) errors.push("La contraseña debe tener al menos 8 caracteres.");
-            if (!upper.test(password)) errors.push("La contraseña debe contener al menos una mayúscula.");
-            if (!lower.test(password)) errors.push("La contraseña debe contener al menos una minúscula.");
-            if (!number.test(password)) errors.push("La contraseña debe contener al menos un número.");
-            if (!special.test(password)) errors.push("La contraseña debe contener al menos un carácter especial.");
-            if (password !== password2) errors.push("Las contraseñas no coinciden.");
+            if (fechaNacimiento) {
+                const nacimiento = new Date(fechaNacimiento);
+                const hoy = new Date();
+                let edad = hoy.getFullYear() - nacimiento.getFullYear();
+                const mesDiff = hoy.getMonth() - nacimiento.getMonth();
+                if (mesDiff < 0 || (mesDiff === 0 && hoy.getDate() < nacimiento.getDate())) {
+                    edad--;
+                }
+                if (edad < 12) errors.push("Debes tener al menos 12 años para actualizar tu perfil.");
+            } else {
+                errors.push("Debes ingresar tu fecha de nacimiento.");
+            }
 
             if (errors.length > 0) {
                 errorDiv.innerHTML = errors.join("<br>");
@@ -483,16 +461,51 @@
                 errorDiv.classList.add("d-none");
             }
 
-            this.textContent = "Registro de usuario exitoso";
-            this.disabled = true;
+            const formData = new FormData();
+            formData.append("nombre", document.getElementById("nombre").value);
+            formData.append("fecha_nacimiento", fechaNacimiento);
+            formData.append("pais", document.getElementById("pais").value);
+            formData.append("genero", document.getElementById("genero").value);
 
-            setTimeout(() => {
-                this.textContent = "Registrarse";
-                this.disabled = false;
-                // e.target.form.submit();
-            }, 2000);
+            if (password) formData.append("password", password);
+
+            const photoInput = document.getElementById("profile-image");
+            if (photoInput.files.length > 0) {
+                formData.append("photo", photoInput.files[0]);
+            }
+
+            const nacionalidades = Array.from(document.querySelectorAll("select[name='nacionalidad[]']"))
+                .map(s => s.value)
+                .filter(v => v);
+            formData.append("nacionalidad", nacionalidades.join(","));
+
+            try {
+                const res = await fetch("http://localhost:8000/api/v1/update_profile", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    errorDiv.classList.remove("alert-danger");
+                    errorDiv.classList.add("alert-success");
+                    errorDiv.textContent = data.message;
+                    errorDiv.classList.remove("d-none");
+
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    errorDiv.classList.remove("alert-success");
+                    errorDiv.classList.add("alert-danger");
+                    errorDiv.textContent = data.error || "Error al actualizar perfil";
+                    errorDiv.classList.remove("d-none");
+                }
+            } catch (err) {
+                errorDiv.classList.remove("d-none");
+                errorDiv.classList.add("alert-danger");
+                errorDiv.textContent = "Error de conexión con el servidor.";
+            }
         });
-
 
     </script>
 </body>

@@ -4,7 +4,7 @@ $page ='sign_up';
 $currentPage=$_SERVER['REQUEST_URI'];
 
 
-// Consumo de API para combobox de paises
+// API CONSUMED: https://restcountries.com/
 $apiUrl = "https://restcountries.com/v3.1/all?fields=name,cca2";
 
 $response = file_get_contents($apiUrl);

@@ -187,7 +187,7 @@
             }
         });
 
-        //REGISTER // CALL TO API
+        // CALL TO API TO REGISTER THE USER
         document.getElementById("registerButton").addEventListener("click", async function (e) {
             e.preventDefault();
 
@@ -251,7 +251,7 @@
             formData.append("nacionalidad", nacionalidades.join(","));
 
             try {
-                const res = await fetch("/api/v1/sign_up", {
+                const res = await fetch("http://localhost:8000/api/v1/sign_up", {
                     method: "POST",
                     body: formData
                 });
