@@ -99,7 +99,7 @@
         </div>
     </section>
 
-    <script src="../public/js/bootstrap.bundle.min.js"></script>
+    |
     <script>
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();

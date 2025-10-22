@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-
 $input = json_decode(file_get_contents('php://input'), true);
 $correo = $input['correo'] ?? ($_POST['correo'] ?? '');
 $password = $input['password'] ?? ($_POST['password'] ?? '');
@@ -25,40 +24,44 @@ if (empty($correo) || empty($password)) {
 }
 
 try {
-
     $result = $db->callProcedure('sp_get_usuario_por_correo', ['p_correo' => $correo]);
     $usuario = $result[0] ?? null;
 
-    if ($usuario && $usuario['ESTATUS']) {
-        if (password_verify($password, $usuario['PASSWORD'])) {
-            
-            $fechaNacimiento = new DateTime($usuario['FECHA_NACIMIENTO']);
-            $hoy = new DateTime();
-            $edad = $hoy->diff($fechaNacimiento)->y;
-
-            $_SESSION['user_id'] = $usuario['ID'];
-            $_SESSION['user_name'] = $usuario['NOMBRE'];
-            $_SESSION['user_photo'] = base64_encode($usuario['FOTO']);
-            $_SESSION['is_admin'] = ($usuario['ID'] == 1);
-            $_SESSION['edad'] = $edad;
-
-            echo json_encode([
-                'success' => true,
-                'message' => 'Inicio de sesión exitoso',
-                'user_id' => $usuario['ID'],
-                'photo' => base64_encode($usuario['FOTO']),
-                'edad' => $edad
-            ]);
-        } else {
-            http_response_code(401);
-            echo json_encode(['success' => false, 'error' => 'Contraseña incorrecta']);
-        }
-    } else {
+    if (!$usuario) {
         http_response_code(401);
-        echo json_encode(['success' => false, 'error' => 'Correo no existe o inactivo']);
+        echo json_encode(['success' => false, 'error' => 'Usuario no encontrado']);
+        exit;
     }
 
+    if (!password_verify($password, $usuario['PASSWORD'])) {
+        http_response_code(401);
+        echo json_encode(['success' => false, 'error' => 'Contraseña incorrecta']);
+        exit;
+    }
+
+    $fechaNacimiento = new DateTime($usuario['FECHA_NACIMIENTO']);
+    $hoy = new DateTime();
+    $edad = $hoy->diff($fechaNacimiento)->y;
+
+    $_SESSION['user_id'] = $usuario['ID'];
+    $_SESSION['user_name'] = $usuario['NOMBRE'];
+    $_SESSION['user_photo'] = base64_encode($usuario['FOTO']);
+    $_SESSION['is_admin'] = (bool)$usuario['ESADMIN'];
+    $_SESSION['edad'] = $edad;
+
+    echo json_encode([
+        'success' => true,
+        'message' => 'Inicio de sesión exitoso',
+        'user_id' => $usuario['ID'],
+        'photo' => base64_encode($usuario['FOTO']),
+        'edad' => $edad,
+        'is_admin' => (bool)$usuario['ESADMIN']
+    ]);
+
 } catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode(['success' => false, 'error' => 'Error en la conexión a la base de datos']);
+    http_response_code(401);
+    echo json_encode([
+        'success' => false,
+        'error' => $e->getMessage() ?: 'Error en la conexión a la base de datos'
+    ]);
 }

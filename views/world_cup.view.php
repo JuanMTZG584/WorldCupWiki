@@ -13,7 +13,7 @@
 
 <body>
     <div class="background bg-dark">
-        <img src="../public/resources/photo-1434648957308-5e6a859697e8.jpg" alt="Fondo">
+        <img src="../public/resources/image.jpg" alt="Fondo">
     </div>
 
     <!-- Editar Publicación Formulario-->
@@ -74,27 +74,109 @@
 
     <!-- Hero -->
     <section class="hero-section text-white py-5"
-        style="background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)),  center center; background-size: cover;">
+        style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), center center; background-size: cover;">
         <div class="container">
-            <div class="row align-items-center">
 
+            <!-- Encabezado principal -->
+            <div class="row align-items-center mb-5">
                 <div class="col-12 col-md-6 text-center text-md-start mb-4 mb-md-0">
                     <img src="../public/resources/WCW-Logo.svg" alt="Logo Mundial" class="img-fluid mb-3"
-                        style="max-height: 120px;">
-                    <h1 class="display-3 fw-bold">FIFA World Cup 2026</h1>
-                    <p class="lead">El 10 de enero de 2017 el Consejo de la FIFA aprobó por unanimidad, la propuesta del
-                        presidente del organismo Gianni Infantino, de elevar el número de plazas para la Copa Mundial de
-                        Fútbol de 32 a 48, a partir de la edición de 2026.</p>
+                        style="max-height: 100px;">
+                    <h1 class="display-3 fw-bold text-uppercase">FIFA World Cup 2026</h1>
+                    <p class="lead">
+                        El 10 de enero de 2017 el Consejo de la FIFA aprobó por unanimidad la propuesta del presidente
+                        del organismo
+                        Gianni Infantino de elevar el número de plazas para la Copa Mundial de Fútbol de 32 a 48, a
+                        partir de la
+                        edición de 2026.
+                    </p>
                 </div>
-
                 <div class="col-12 col-md-6 text-center text-md-end">
-                    <img src="../public/resources\66e956f061db0.png" alt="Imagen representativa"
-                        class="img-fluid rounded shadow-lg">
+                    <img src="../public/resources/66e956f061db0.png" alt="Imagen representativa"
+                        class="img-fluid rounded shadow-lg" style="max-height: 320px;">
+                </div>
+            </div>
+
+            <!-- Tarjeta informativa -->
+            <div class="bg-light text-dark rounded shadow-lg p-4 mb-5">
+                <div class="row">
+                    <div class="col-12 col-md-4 mb-4 mb-md-0 text-center d-flex flex-column justify-content-center">
+                        <h5 class="fw-bold text-uppercase text-primary mb-3">País sede</h5>
+                        <p class="fs-5 fw-semibold">México, Estados Unidos y Canadá</p>
+                        <p><strong>Año:</strong> 2026</p>
+                        <hr>
+                        <h6 class="fw-bold text-secondary mb-2">Balón oficial</h6>
+                        <img src="../public/resources/jabulani.jpg" alt="Balón oficial"
+                            class="img-fluid rounded shadow-sm mx-auto" style="max-height: 180px;">
+                    </div>
+
+                    <!-- Campeón -->
+                    <div class="col-12 col-md-4 text-center border-start border-end">
+                        <h5 class="fw-bold text-uppercase text-success mb-3">Campeón</h5>
+                        <p class="fs-5 fw-semibold mb-1">Argentina</p>
+                        <p><strong>Goles:</strong> 18</p>
+                        <p><strong>Penales:</strong> 4</p>
+                    </div>
+
+                    <!-- Subcampeón -->
+                    <div class="col-12 col-md-4 text-center">
+                        <h5 class="fw-bold text-uppercase text-danger mb-3">Subcampeón</h5>
+                        <p class="fs-5 fw-semibold mb-1">Francia</p>
+                        <p><strong>Goles:</strong> 16</p>
+                        <p><strong>Penales:</strong> 3</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sedes -->
+            <div class="row">
+                <div class="col-12 text-center mb-4">
+                    <h4 class="fw-bold text-uppercase text-white">Sedes del Mundial</h4>
+                    <hr class="mx-auto opacity-50" style="width: 200px;">
                 </div>
 
+                <div class="col-12 col-md-4 mb-4">
+                    <div class="card h-100 shadow border-0 rounded-4">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary fw-bold">🏟️ Estadio Azteca</h5>
+                            <p class="mb-1"><strong>Ciudad:</strong> Ciudad de México</p>
+                            <p class="text-muted small">
+                                Uno de los estadios más emblemáticos del mundo, sede de dos finales de la Copa Mundial
+                                de la FIFA.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4 mb-4">
+                    <div class="card h-100 shadow border-0 rounded-4">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary fw-bold">🏟️ MetLife Stadium</h5>
+                            <p class="mb-1"><strong>Ciudad:</strong> Nueva Jersey, EE. UU.</p>
+                            <p class="text-muted small">
+                                Moderna sede con capacidad para más de 80,000 espectadores, elegida para albergar
+                                partidos clave.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4 mb-4">
+                    <div class="card h-100 shadow border-0 rounded-4">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary fw-bold">🏟️ BMO Field</h5>
+                            <p class="mb-1"><strong>Ciudad:</strong> Toronto, Canadá</p>
+                            <p class="text-muted small">
+                                Ubicado junto al lago Ontario, representa la expansión del torneo a todo el continente
+                                norteamericano.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+
 
     <hr class="text-white">
 
@@ -124,12 +206,12 @@
 
                 <?php include 'partials/main_content.view.php'; ?>
 
+            </div>
         </div>
-    </div>
 
-    <!-- Scripts -->
-    <script src="../public/js/bootstrap.bundle.min.js"></script>
-    <script src="../public/js/controls.script.js"></script>
+        <!-- Scripts -->
+        <script src="../public/js/bootstrap.bundle.min.js"></script>
+        <script src="../public/js/controls.script.js"></script>
 </body>
 
 </html>

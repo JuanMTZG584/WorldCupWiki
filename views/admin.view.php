@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
   <link rel="stylesheet" href="../public/css/all.min.css">
   <link rel="stylesheet" href="../public/css/style.css">
 </head>
+
 <body>
   <div class="background bg-dark">
     <img src="../public/resources/photo-1434648957308-5e6a859697e8.jpg" alt="Fondo">
@@ -40,25 +42,7 @@
             <button class="btn btn-success btn-sm mb-3 approve-publication"><i class="fas fa-check"></i> Aprobar
               publicación</button>
 
-            <h6 class="mt-3">Comentarios</h6>
-            <ul class="list-group">
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                  <strong>Ana López:</strong> ¡Totalmente de acuerdo!
-                  <br><small class="text-muted">12/09/2025 14:30</small>
-                </div>
-                <button class="btn btn-outline-success btn-sm approve-comment"><i class="fas fa-check"></i>
-                  Aprobar</button>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                  <strong>Carlos Pérez:</strong> Fue un partidazo 🔥
-                  <br><small class="text-muted">12/09/2025 14:45</small>
-                </div>
-                <button class="btn btn-outline-success btn-sm approve-comment"><i class="fas fa-check"></i>
-                  Aprobar</button>
-              </li>
-            </ul>
+
           </div>
         </div>
 
@@ -78,18 +62,6 @@
             </div>
             <button class="btn btn-success btn-sm mb-3 approve-publication"><i class="fas fa-check"></i> Aprobar
               publicación</button>
-
-            <h6 class="mt-3">Comentarios</h6>
-            <ul class="list-group">
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                  <strong>María Torres:</strong> Inolvidable partido
-                  <br><small class="text-muted">10/09/2025 19:30</small>
-                </div>
-                <button class="btn btn-outline-success btn-sm approve-comment"><i class="fas fa-check"></i>
-                  Aprobar</button>
-              </li>
-            </ul>
           </div>
         </div>
       </div>
@@ -99,16 +71,11 @@
         <!-- Añadir página -->
         <div class="card shadow-sm mb-4">
           <div class="card-body">
-            <h5>Añadir página</h5>
-            <form class="form-action">
-              <div class="mb-3">
-                <label for="pageImage" class="form-label">Imagen</label>
-                <input type="file" class="form-control" id="pageImage">
-              </div>
-              <div class="mb-3">
-                <label for="pageLogo" class="form-label">Logotipo</label>
-                <input type="file" class="form-control" id="pageLogo">
-              </div>
+            <h5 class="mb-3">Añadir Página del Mundial</h5>
+
+            <form class="form-action" enctype="multipart/form-data">
+
+              <h6 class="text-primary mb-2">Información general</h6>
               <div class="mb-3">
                 <label for="pageName" class="form-label">Nombre del Mundial</label>
                 <input type="text" class="form-control" id="pageName" placeholder="Ej. Mundial 2022">
@@ -118,73 +85,167 @@
                 <input type="number" class="form-control" id="pageYear" placeholder="2022">
               </div>
               <div class="mb-3">
-                <label for="pageReview" class="form-label">Reseña</label>
+                <label for="pageCountry" class="form-label">País anfitrión</label>
+                <input type="text" class="form-control" id="pageCountry" placeholder="Ej. Catar">
+              </div>
+
+              <hr class="my-3">
+
+              <h6 class="text-primary mb-3 d-flex justify-content-between align-items-center">
+                Sedes
+                <button type="button" id="addVenueBtn" class="btn btn-sm btn-outline-primary">+ Añadir sede</button>
+              </h6>
+
+              <div id="venueContainer">
+
+                <div class="venue-item border rounded p-3 mb-3 position-relative">
+                  <h6 class="fw-semibold">Sede 1</h6>
+                  <div class="mb-3">
+                    <label class="form-label">Estadio</label>
+                    <input type="text" class="form-control" name="stadium[]" placeholder="Ej. Estadio Lusail" required>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Ciudad</label>
+                    <input type="text" class="form-control" name="city[]" placeholder="Ej. Lusail" required>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Descripción</label>
+                    <textarea class="form-control" name="description[]" rows="2"
+                      placeholder="Breve descripción de la sede"></textarea>
+                  </div>
+
+                  <button type="button" class="btn btn-danger btn-sm removeVenueBtn"
+                    style="position:absolute; top:10px; right:10px; display:none;">Eliminar</button>
+                </div>
+              </div>
+
+              <hr class="my-3">
+
+              <h6 class="text-primary mb-2">Elementos visuales</h6>
+              <div class="mb-3">
+                <label for="pageImage" class="form-label">Imagen principal</label>
+                <input type="file" class="form-control" id="pageImage" accept="image/*">
+              </div>
+              <div class="mb-3">
+                <label for="pageLogo" class="form-label">Logotipo</label>
+                <input type="file" class="form-control" id="pageLogo" accept="image/*">
+              </div>
+              <div class="mb-3">
+                <label for="pageBall" class="form-label">Balón oficial</label>
+                <input type="file" class="form-control" id="pageBall" accept="image/*">
+              </div>
+              <div class="mb-3">
+                <label for="pagePoster" class="form-label">Póster oficial</label>
+                <input type="file" class="form-control" id="pagePoster" accept="image/*">
+              </div>
+
+              <hr class="my-3">
+
+              <h6 class="text-primary mb-2">Resultados</h6>
+              <div class="mb-3">
+                <label for="pageChampion" class="form-label">Campeón</label>
+                <input type="text" class="form-control" id="pageChampion" placeholder="Ej. Argentina">
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="pageChampionGoals" class="form-label">Goles del Campeón</label>
+                  <input type="number" class="form-control" id="pageChampionGoals" placeholder="3">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="pageChampionPenalties" class="form-label">Penales del Campeón</label>
+                  <input type="number" class="form-control" id="pageChampionPenalties" placeholder="4">
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="pageRunnerUp" class="form-label">Subcampeón</label>
+                <input type="text" class="form-control" id="pageRunnerUp" placeholder="Ej. Francia">
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="pageRunnerUpGoals" class="form-label">Goles del Subcampeón</label>
+                  <input type="number" class="form-control" id="pageRunnerUpGoals" placeholder="3">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="pageRunnerUpPenalties" class="form-label">Penales del Subcampeón</label>
+                  <input type="number" class="form-control" id="pageRunnerUpPenalties" placeholder="2">
+                </div>
+              </div>
+
+              <hr class="my-3">
+              <h6 class="text-primary mb-2">Reseña</h6>
+              <div class="mb-3">
+                <label for="pageReview" class="form-label">Breve reseña</label>
                 <textarea class="form-control" id="pageReview" rows="3"
                   placeholder="Breve reseña del mundial"></textarea>
               </div>
-              <button type="submit" class="btn btn-success w-100 form-btn">Añadir Página</button>
+
+              <button type="submit" class="btn btn-success w-100 form-btn mt-2">Añadir Página</button>
             </form>
           </div>
         </div>
-
-        <!-- Añadir categoría -->
-        <div class="card shadow-sm mb-4">
-          <div class="card-body">
-            <h5>Añadir categoría</h5>
-            <form class="form-action">
-              <div class="mb-3">
-                <label for="categoryName" class="form-label">Nombre de la categoría</label>
-                <input type="text" class="form-control" id="categoryName" placeholder="Ej. Goles memorables">
-              </div>
-              <button type="submit" class="btn btn-success w-100 form-btn">Añadir Categoría</button>
-            </form>
-          </div>
-        </div>
-
-        <!-- Nueva publicación -->
-        <div class="card shadow-sm mb-4">
-          <div class="card-body">
-            <h5>Nueva Publicación</h5>
-            <form class="form-action">
-              <div class="mb-3">
-                <label for="categoria" class="form-label">Categoría</label>
-                <select class="form-select" id="categoria" required>
-                  <option value="" selected disabled>Elija una categoría</option>
-                  <option value="historia">Historia</option>
-                  <option value="jugador">Jugador</option>
-                  <option value="partido">Partido</option>
-                  <option value="dato">Dato curioso</option>
-                </select>
-              </div>
-              <div class="mb-3">
-                <label for="media" class="form-label">Imagen o Video</label>
-                <input class="form-control" type="file" id="media" accept="image/*,video/*" required>
-              </div>
-              <div class="mb-3">
-                <label for="mundial" class="form-label">Mundial</label>
-                <select class="form-select" id="mundial" required>
-                  <option value="" selected disabled>Elija un mundial</option>
-                  <option value="2014">Brasil 2014</option>
-                  <option value="2018">Rusia 2018</option>
-                  <option value="2022">Qatar 2022</option>
-                </select>
-              </div>
-              <div class="mb-3">
-                <label for="seleccion" class="form-label">Selección (opcional)</label>
-                <select class="form-select" id="seleccion">
-                  <option value="" selected disabled>Elija una selección</option>
-                  <option value="Argentina">Argentina</option>
-                  <option value="Brasil">Brasil</option>
-                  <option value="Francia">Francia</option>
-                </select>
-              </div>
-              <button type="submit" class="btn btn-success w-100 form-btn">Publicar</button>
-            </form>
-          </div>
-        </div>
-
       </div>
+
+
+
+      <!-- Añadir categoría -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <h5>Añadir categoría</h5>
+          <form class="form-action">
+            <div class="mb-3">
+              <label for="categoryName" class="form-label">Nombre de la categoría</label>
+              <input type="text" class="form-control" id="categoryName" placeholder="Ej. Goles memorables">
+            </div>
+            <button type="submit" class="btn btn-success w-100 form-btn">Añadir Categoría</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Nueva publicación -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <h5>Nueva Publicación</h5>
+          <form class="form-action">
+            <div class="mb-3">
+              <label for="categoria" class="form-label">Categoría</label>
+              <select class="form-select" id="categoria" required>
+                <option value="" selected disabled>Elija una categoría</option>
+                <option value="historia">Historia</option>
+                <option value="jugador">Jugador</option>
+                <option value="partido">Partido</option>
+                <option value="dato">Dato curioso</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="media" class="form-label">Imagen o Video</label>
+              <input class="form-control" type="file" id="media" accept="image/*,video/*" required>
+            </div>
+            <div class="mb-3">
+              <label for="mundial" class="form-label">Mundial</label>
+              <select class="form-select" id="mundial" required>
+                <option value="" selected disabled>Elija un mundial</option>
+                <option value="2014">Brasil 2014</option>
+                <option value="2018">Rusia 2018</option>
+                <option value="2022">Qatar 2022</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="seleccion" class="form-label">Selección (opcional)</label>
+              <select class="form-select" id="seleccion">
+                <option value="" selected disabled>Elija una selección</option>
+                <option value="Argentina">Argentina</option>
+                <option value="Brasil">Brasil</option>
+                <option value="Francia">Francia</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-success w-100 form-btn">Publicar</button>
+          </form>
+        </div>
+      </div>
+
     </div>
+  </div>
   </div>
 
   <script src="../public/js/bootstrap.bundle.min.js"></script>
@@ -207,6 +268,53 @@
         alert('¡Acción realizada correctamente!');
       });
     });
+  </script>
+  <script>
+    // DYNAMIC CONTROLL OF "SEDES"
+    const venueContainer = document.getElementById('venueContainer');
+    const addVenueBtn = document.getElementById('addVenueBtn');
+
+    let venueCount = 1;
+
+    addVenueBtn.addEventListener('click', () => {
+      venueCount++;
+      const venueDiv = document.createElement('div');
+      venueDiv.classList.add('venue-item', 'border', 'rounded', 'p-3', 'mb-3', 'position-relative');
+      venueDiv.innerHTML = `
+      <h6 class="fw-semibold">Sede ${venueCount}</h6>
+      <div class="mb-3">
+        <label class="form-label">Estadio</label>
+        <input type="text" class="form-control" name="stadium[]" placeholder="Ej. Estadio ${venueCount}" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Ciudad</label>
+        <input type="text" class="form-control" name="city[]" placeholder="Ej. Ciudad ${venueCount}" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Descripción</label>
+        <textarea class="form-control" name="description[]" rows="2" placeholder="Breve descripción de la sede"></textarea>
+      </div>
+      <button type="button" class="btn btn-danger btn-sm removeVenueBtn" style="position:absolute; top:10px; right:10px;">Eliminar</button>
+    `;
+      venueContainer.appendChild(venueDiv);
+
+      venueDiv.querySelector('.removeVenueBtn').addEventListener('click', () => {
+        venueDiv.remove();
+        updateVenueTitles();
+      });
+
+      updateVenueTitles();
+    });
+    function updateVenueTitles() {
+      const venues = document.querySelectorAll('.venue-item');
+      venues.forEach((v, i) => {
+        v.querySelector('h6').textContent = `Sede ${i + 1}`;
+        const removeBtn = v.querySelector('.removeVenueBtn');
+        removeBtn.style.display = i === 0 ? 'none' : 'block'; // la primera no se puede eliminar
+      });
+    }
+
+    updateVenueTitles();
   </script>
 </body>
 

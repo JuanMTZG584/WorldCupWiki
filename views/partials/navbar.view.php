@@ -1,6 +1,8 @@
 <?php
 
-?><nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
+?>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
   <div class="container-fluid justify-content-lg-center">
     <a class="navbar-brand ps-3 pe-3" href="/">
       <img src="../public/resources/WCW-Logo.svg" alt="Logo" id="logo-nav">
@@ -18,32 +20,38 @@
       </form>
 
       <ul class="navbar-nav ms-auto align-items-center">
-        <li class="nav-item"><a class="nav-link ps-3 pe-3" href="login">Iniciar sesión</a></li>
-        <li class="nav-item"><a class="nav-link ps-3 pe-3" href="sign_up">Registrarse</a></li>
-
-        <li class="nav-item dropdown">
-          <a class="nav-link ps-3 pe-3 d-flex align-items-center" href="#" id="navbarProfile" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            <?php
-            $userPhoto = $_SESSION['user_photo'] ?? null;
-            ?>
-            <?php if ($userPhoto): ?>
-              <img src="data:image/jpeg;base64,<?= $userPhoto ?>" alt="Perfil" width="40" height="40"
-                class="rounded-circle">
-            <?php else: ?>
-              <img src="../public/resources/64572.png" alt="Perfil" width="40" height="40" class="rounded-circle">
-            <?php endif; ?>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarProfile">
-            <li><a class="dropdown-item" href="profile">Ver perfil</a></li>
-            <li>
-              <hr class="dropdown-divider">
+        <?php if (empty($_SESSION['user_id'])): ?>
+          <li class="nav-item"><a class="nav-link ps-3 pe-3" href="login">Iniciar sesión</a></li>
+          <li class="nav-item"><a class="nav-link ps-3 pe-3" href="sign_up">Registrarse</a></li>
+        <?php else: ?>
+          <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true): ?>
+            <li class="nav-item">
+              <a class="nav-link ps-3 pe-3" href="/admin">Admin</a>
             </li>
-            <li><a class="dropdown-item" href="logout">Cerrar sesión</a></li>
-          </ul>
-        </li>
+          <?php endif; ?>
 
-
+          <li class="nav-item dropdown">
+            <a class="nav-link ps-3 pe-3 d-flex align-items-center" href="#" id="navbarProfile" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <?php
+              $userPhoto = $_SESSION['user_photo'] ?? null;
+              ?>
+              <?php if ($userPhoto): ?>
+                <img src="data:image/jpeg;base64,<?= $userPhoto ?>" alt="Perfil" width="40" height="40"
+                  class="rounded-circle">
+              <?php else: ?>
+                <img src="../public/resources/64572.png" alt="Perfil" width="40" height="40" class="rounded-circle">
+              <?php endif; ?>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarProfile">
+              <li><a class="dropdown-item" href="profile">Ver perfil</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="logout">Cerrar sesión</a></li>
+            </ul>
+          </li>
+        <?php endif; ?>
       </ul>
     </div>
   </div>
