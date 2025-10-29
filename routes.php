@@ -21,4 +21,7 @@ $router->add('/api/v1/sign_up', 'APIs/sign_up.api.php');
 $router->add('/api/v1/profile', 'APIs/see_profile.api.php');
 $router->add('/api/v1/update_profile', 'APIs/update_profile.api.php');
 
+$router->add('/api/v1/insert_category', 'APIs/add_category.api.php');
+$router->add('/api/v1/insert_worldcup', 'APIs/add_world_cup.api.php');
+
 $router->dispatch($_SERVER['REQUEST_URI']);

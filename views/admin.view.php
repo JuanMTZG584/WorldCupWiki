@@ -73,7 +73,7 @@
           <div class="card-body">
             <h5 class="mb-3">Añadir Página del Mundial</h5>
 
-            <form class="form-action" enctype="multipart/form-data">
+            <form id="formMundial" class="form-action" enctype="multipart/form-data">
 
               <h6 class="text-primary mb-2">Información general</h6>
               <div class="mb-3">
@@ -182,8 +182,12 @@
 
               <button type="submit" class="btn btn-success w-100 form-btn mt-2">Añadir Página</button>
             </form>
+            <div id="responseMundial" class="mt-3"></div>
           </div>
+
         </div>
+
+
       </div>
 
 
@@ -192,13 +196,17 @@
       <div class="card shadow-sm mb-4">
         <div class="card-body">
           <h5>Añadir categoría</h5>
-          <form class="form-action">
+          <form id="formCategoria" class="form-action">
             <div class="mb-3">
               <label for="categoryName" class="form-label">Nombre de la categoría</label>
-              <input type="text" class="form-control" id="categoryName" placeholder="Ej. Goles memorables">
+              <input type="text" class="form-control" id="categoryName" name="nombre" placeholder="Ej. Goles memorables"
+                required>
             </div>
             <button type="submit" class="btn btn-success w-100 form-btn">Añadir Categoría</button>
           </form>
+
+          <!-- Mensaje de respuesta-->
+          <div id="responseMessage" class="mt-3"></div>
         </div>
       </div>
 
@@ -262,12 +270,6 @@
       });
     });
 
-    document.querySelectorAll('.form-action').forEach(form => {
-      form.addEventListener('submit', e => {
-        e.preventDefault();
-        alert('¡Acción realizada correctamente!');
-      });
-    });
   </script>
   <script>
     // DYNAMIC CONTROLL OF "SEDES"
@@ -316,6 +318,124 @@
 
     updateVenueTitles();
   </script>
+
+  <script>
+    // SEND REQUEST TO API TO ADD CATEGORY
+    document.getElementById('formCategoria').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const form = e.target;
+      const formData = new FormData(form);
+      const responseMessage = document.getElementById('responseMessage');
+      responseMessage.innerHTML = '';
+
+      try {
+        const res = await fetch('http://localhost:8000/api/v1/insert_category', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          responseMessage.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+          form.reset();
+        } else {
+          responseMessage.innerHTML = `<div class="alert alert-danger">${data.error || 'Error al registrar categoría'}</div>`;
+        }
+      } catch (error) {
+        responseMessage.innerHTML = `<div class="alert alert-danger">Error de conexión con el servidor.</div>`;
+      }
+      setTimeout(() => { responseMessage.innerHTML = ''; }, 4000);
+
+    });
+  </script>
+
+
+  <script>
+    const form = document.getElementById('formMundial');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData();
+
+      formData.append('ano', document.getElementById('pageYear').value);
+      formData.append('pais', document.getElementById('pageCountry').value);
+
+      formData.append('campeon', document.getElementById('pageChampion').value);
+      formData.append('goles_campeon', document.getElementById('pageChampionGoals').value);
+      formData.append('penales_campeon', document.getElementById('pageChampionPenalties').value);
+      formData.append('subcampeon', document.getElementById('pageRunnerUp').value);
+      formData.append('goles_subcampeon', document.getElementById('pageRunnerUpGoals').value);
+      formData.append('penales_subcampeon', document.getElementById('pageRunnerUpPenalties').value);
+
+      formData.append('descripcion', document.getElementById('pageReview').value);
+
+      const logo = document.getElementById('pageLogo').files[0];
+      const imagen = document.getElementById('pageImage').files[0];
+      const balon = document.getElementById('pageBall').files[0];
+      const poster = document.getElementById('pagePoster').files[0];
+
+      if (logo) formData.append('logo', logo);
+      if (imagen) formData.append('imagen', imagen);
+      if (balon) formData.append('balon', balon);
+      if (poster) formData.append('poster', poster);
+
+      const sedes = [];
+      document.querySelectorAll('.venue-item').forEach((venue) => {
+        sedes.push({
+          estadio: venue.querySelector('input[name="stadium[]"]').value,
+          ciudad: venue.querySelector('input[name="city[]"]').value,
+          descripcion: venue.querySelector('textarea[name="description[]"]').value
+        });
+      });
+      formData.append('sedes', JSON.stringify(sedes));
+
+      const responseMundial = document.getElementById('responseMundial');
+      responseMundial.innerHTML = '';
+
+      try {
+        const res = await fetch('http://localhost:8000/api/v1/insert_worldcup', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          responseMundial.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+          form.reset();
+          document.getElementById('venueContainer').innerHTML = `
+          <div class="venue-item border rounded p-3 mb-3 position-relative">
+            <h6 class="fw-semibold">Sede 1</h6>
+            <div class="mb-3">
+              <label class="form-label">Estadio</label>
+              <input type="text" class="form-control" name="stadium[]" placeholder="Ej. Estadio Lusail" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Ciudad</label>
+              <input type="text" class="form-control" name="city[]" placeholder="Ej. Lusail" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Descripción</label>
+              <textarea class="form-control" name="description[]" rows="2" placeholder="Breve descripción de la sede"></textarea>
+            </div>
+            <button type="button" class="btn btn-danger btn-sm removeVenueBtn"
+              style="position:absolute; top:10px; right:10px; display:none;">Eliminar</button>
+          </div>
+        `;
+        } else {
+          responseMundial.innerHTML = `<div class="alert alert-danger">${data.error || 'Error al registrar el mundial'}</div>`;
+        }
+      } catch (error) {
+        responseMundial.innerHTML = `<div class="alert alert-danger">Error de conexión con el servidor.</div>`;
+      }
+
+      setTimeout(() => { responseMundial.innerHTML = ''; }, 4000);
+    });
+  </script>
+
 </body>
 
 </html>
