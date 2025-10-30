@@ -123,9 +123,14 @@
                             </div>
 
                             <!-- Botón registrar -->
-                            <div class="d-grid">
+                            <div class="d-grid position-relative">
                                 <button id="registerButton" type="submit"
                                     class="btn btn-dark btn-sm w-100">Registrarse</button>
+                                <div id="spinner"
+                                    class="spinner-border text-light position-absolute top-50 start-50 translate-middle d-none"
+                                    role="status" style="width: 2rem; height: 2rem;">
+                                    <span class="visually-hidden">Cargando...</span>
+                                </div>
                             </div>
                         </form>
 
@@ -168,7 +173,6 @@
             reader.readAsDataURL(event.target.files[0]);
         }
 
-        //ADD A NATIONALITY
         document.getElementById("addNacionalidad").addEventListener("click", function () {
             const container = document.getElementById("nacionalidades-container");
             const firstSelect = container.querySelector("select");
@@ -176,7 +180,7 @@
             newSelect.selectedIndex = 0;
             container.appendChild(newSelect);
         });
-        //DELETE A NATIONALITY
+
         document.getElementById("removeNacionalidad").addEventListener("click", function () {
             const container = document.getElementById("nacionalidades-container");
             const selects = container.querySelectorAll("select[name='nacionalidad[]']");
@@ -187,7 +191,6 @@
             }
         });
 
-        // CALL TO API TO REGISTER THE USER
         document.getElementById("registerButton").addEventListener("click", async function (e) {
             e.preventDefault();
 
@@ -195,9 +198,9 @@
             const password2 = document.getElementById("password2").value;
             const fechaNacimiento = document.getElementById("fecha").value;
             const errorDiv = document.getElementById("password-errors");
+            const spinner = document.getElementById("spinner");
 
             let errors = [];
-
             const minLength = /.{8,}/;
             const upper = /[A-Z]/;
             const lower = /[a-z]/;
@@ -205,10 +208,10 @@
             const special = /[!@#$%^&*(),.?":{}|<>]/;
 
             if (!minLength.test(password)) errors.push("La contraseña debe tener al menos 8 caracteres.");
-            if (!upper.test(password)) errors.push("La contraseña debe contener al menos una mayúscula.");
-            if (!lower.test(password)) errors.push("La contraseña debe contener al menos una minúscula.");
-            if (!number.test(password)) errors.push("La contraseña debe contener al menos un número.");
-            if (!special.test(password)) errors.push("La contraseña debe contener al menos un carácter especial.");
+            if (!upper.test(password)) errors.push("Debe contener al menos una mayúscula.");
+            if (!lower.test(password)) errors.push("Debe contener al menos una minúscula.");
+            if (!number.test(password)) errors.push("Debe contener al menos un número.");
+            if (!special.test(password)) errors.push("Debe contener al menos un carácter especial.");
             if (password !== password2) errors.push("Las contraseñas no coinciden.");
 
             if (fechaNacimiento) {
@@ -251,10 +254,13 @@
             formData.append("nacionalidad", nacionalidades.join(","));
 
             try {
+                spinner.classList.remove("d-none");
+
                 const res = await fetch("http://localhost:8000/api/v1/sign_up", {
                     method: "POST",
                     body: formData
                 });
+
                 const data = await res.json();
 
                 if (data.success) {
@@ -274,9 +280,12 @@
                 errorDiv.classList.remove("d-none");
                 errorDiv.classList.add("alert-danger");
                 errorDiv.textContent = "Error de conexión con el servidor.";
+            } finally {
+                spinner.classList.add("d-none");
             }
         });
     </script>
+
 
 </body>
 

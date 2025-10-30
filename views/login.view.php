@@ -56,7 +56,6 @@
 
                             <!-- Formulario -->
                             <form action="/login" method="POST" id="loginForm">
-
                                 <div class="row gy-3 gy-md-4 overflow-hidden">
 
                                     <div class="col-12">
@@ -73,10 +72,17 @@
                                             placeholder="Ingrese contraseña" required>
                                     </div>
 
-                                    <div class="col-12">
+                                    <div class="col-12 position-relative">
                                         <div class="d-grid">
-                                            <button id="loginButton" class="btn btn-dark btn-lg" type="submit">Iniciar
-                                                Sesión</button>
+                                            <button id="loginButton" class="btn btn-dark btn-lg" type="submit">
+                                                Iniciar Sesión
+                                            </button>
+                                            <!-- Spinner centrado -->
+                                            <div id="spinner"
+                                                class="spinner-border text-primary position-absolute top-50 start-50 translate-middle d-none"
+                                                role="status" style="width: 2rem; height: 2rem;">
+                                                <span class="visually-hidden">Cargando...</span>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -99,7 +105,6 @@
         </div>
     </section>
 
-    |
     <script>
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -107,10 +112,17 @@
             const correo = document.getElementById('correo').value.trim();
             const password = document.getElementById('password').value.trim();
             const statusBox = document.getElementById('statusMessage');
+            const spinner = document.getElementById('spinner');
+            const loginButton = document.getElementById('loginButton');
 
             statusBox.classList.add('d-none');
 
             try {
+                // Mostrar spinner y desactivar botón
+                spinner.classList.remove('d-none');
+                loginButton.disabled = true;
+                loginButton.textContent = "Cargando...";
+
                 const res = await fetch('http://localhost:8000/api/v1/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -137,10 +149,14 @@
                 statusBox.classList.remove('d-none');
                 statusBox.classList.add('alert', 'alert-danger', 'text-center');
                 statusBox.textContent = 'Error de conexión con el servidor.';
+            } finally {
+                // Ocultar spinner y reactivar botón
+                spinner.classList.add('d-none');
+                loginButton.disabled = false;
+                loginButton.textContent = "Iniciar Sesión";
             }
         });
     </script>
 
 </body>
-
 </html>
