@@ -79,32 +79,30 @@
   <!-- Swiper -->
   <div class="swiper-container">
     <div class="swiper-wrapper mt-6">
-      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup">
-        <div class="card rounded">Copa Mundial 1930</div>
-      </div>
-      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup">
-        <div class="card rounded">Copa Mundial 1934</div>
-      </div>
-      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup">
-        <div class="card rounded">Copa Mundial 1934</div>
-      </div>
-      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup">
-        <div class="card rounded">Copa Mundial 1934</div>
-      </div>
-      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup">
-        <div class="card rounded">Copa Mundial 1934</div>
-      </div>
-      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup">
-        <div class="card rounded">Copa Mundial 1934</div>
-      </div>
-      <div class="swiper-slide" data-image="../public/resources/photo-1434648957308-5e6a859697e8.jpg" data-url="world_cup">
-        <div class="card rounded">Copa Mundial 1934</div>
-      </div>
+      <?php if (!empty($mundiales)): ?>
+        <?php foreach ($mundiales as $m): ?>
+          <div class="swiper-slide" data-url="world_cup?id=<?= htmlspecialchars($m['id']) ?>">
+            <?php
+            $imagenSrc = 'data:image/jpeg;base64,' . base64_encode($m['imagen']);
+            ?>
+            <div class="card rounded text-center" style="overflow: hidden;">
+              <img src="<?= $imagenSrc ?>" alt="<?= htmlspecialchars($m['nombre']) ?>"
+                style="width: 100%; height: 250px; object-fit: cover; border-radius: 8px;">
+              <div class="p-2 fw-bold">
+                <?= htmlspecialchars($m['nombre']) ?>
+              </div>
+            </div>
+          </div>
+        <?php endforeach; ?>
+      <?php else: ?>
+        <p class="text-center">No hay mundiales disponibles.</p>
+      <?php endif; ?>
     </div>
 
     <div class="swiper-button-prev"></div>
     <div class="swiper-button-next"></div>
   </div>
+
 
   <hr class="text-white">
 
@@ -144,49 +142,59 @@
 
         <hr class="text-white">
 
-       <?php include 'partials/main_content.view.php'; ?>
+        <?php include 'partials/main_content.view.php'; ?>
 
 
+      </div>
     </div>
-  </div>
 
-  <!-- Scripts -->
-  <script src="../public/js/swiper-bundle.min.js"></script>
-  <script src="../public/js/bootstrap.bundle.min.js"></script>
-  <script>
-    const swiper = new Swiper('.swiper-container', {
-      loop: true,
-      slidesPerView: 3,
-      spaceBetween: 20,
-      autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-      },
-      pagination: {
-        el: '.swiper-pagination',
-        type: 'progressbar',
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-    });
-
-    document.querySelectorAll('.swiper-slide').forEach(slide => {
-      const imageUrl = slide.getAttribute('data-image');
-      if (imageUrl) {
-        slide.style.backgroundImage = `url(${imageUrl})`;
-        slide.style.backgroundSize = 'cover';
-        slide.style.backgroundPosition = 'center';
-      }
-    });
-    document.querySelectorAll('.swiper-slide').forEach(slide => {
-      slide.addEventListener('click', () => {
-        window.location.href = slide.dataset.url;
+    <!-- Scripts -->
+    <script src="../public/js/swiper-bundle.min.js"></script>
+    <script src="../public/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const swiper = new Swiper('.swiper-container', {
+        loop: true,
+        slidesPerView: 4,
+        spaceBetween: 2,
+        autoplay: {
+          delay: 5000,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          type: 'progressbar',
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
       });
-    });
-  </script>
-  <script src="../public/js/controls.script.js"></script>
+
+      document.querySelectorAll('.swiper-slide').forEach(slide => {
+        const imageUrl = slide.getAttribute('data-image');
+        if (imageUrl) {
+          slide.style.backgroundImage = `url(${imageUrl})`;
+          slide.style.backgroundSize = 'cover';
+          slide.style.backgroundPosition = 'center';
+        }
+      });
+      document.querySelectorAll('.swiper-slide').forEach(slide => {
+        slide.addEventListener('click', () => {
+          window.location.href = slide.dataset.url;
+        });
+      });
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.swiper-slide').forEach(slide => {
+          slide.addEventListener('click', () => {
+            const url = slide.getAttribute('data-url');
+            if (url) {
+              window.location.href = url;
+            }
+          });
+        });
+      });
+    </script>
+    <script src="../public/js/controls.script.js"></script>
 </body>
 
 </html>

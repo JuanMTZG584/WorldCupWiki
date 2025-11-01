@@ -12,9 +12,6 @@
 </head>
 
 <body>
-    <div class="background bg-dark">
-        <img src="../public/resources/image.jpg" alt="Fondo">
-    </div>
 
     <!-- Editar Publicación Formulario-->
     <div class="modal fade" id="modalPublicacion" tabindex="-1" aria-labelledby="modalPublicacionLabel"
@@ -73,109 +70,113 @@
     <?php include 'partials/navbar.view.php'; ?>
 
     <!-- Hero -->
-    <section class="hero-section text-white py-5"
-        style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), center center; background-size: cover;">
-        <div class="container">
-
-            <!-- Encabezado principal -->
-            <div class="row align-items-center mb-5">
-                <div class="col-12 col-md-6 text-center text-md-start mb-4 mb-md-0">
-                    <img src="../public/resources/WCW-Logo.svg" alt="Logo Mundial" class="img-fluid mb-3"
-                        style="max-height: 100px;">
-                    <h1 class="display-3 fw-bold text-uppercase">FIFA World Cup 2026</h1>
-                    <p class="lead">
-                        El 10 de enero de 2017 el Consejo de la FIFA aprobó por unanimidad la propuesta del presidente
-                        del organismo
-                        Gianni Infantino de elevar el número de plazas para la Copa Mundial de Fútbol de 32 a 48, a
-                        partir de la
-                        edición de 2026.
-                    </p>
-                </div>
-                <div class="col-12 col-md-6 text-center text-md-end">
-                    <img src="../public/resources/66e956f061db0.png" alt="Imagen representativa"
-                        class="img-fluid rounded shadow-lg" style="max-height: 320px;">
-                </div>
-            </div>
-
-            <!-- Tarjeta informativa -->
-            <div class="bg-light text-dark rounded shadow-lg p-4 mb-5">
-                <div class="row">
-                    <div class="col-12 col-md-4 mb-4 mb-md-0 text-center d-flex flex-column justify-content-center">
-                        <h5 class="fw-bold text-uppercase text-primary mb-3">País sede</h5>
-                        <p class="fs-5 fw-semibold">México, Estados Unidos y Canadá</p>
-                        <p><strong>Año:</strong> 2026</p>
-                        <hr>
-                        <h6 class="fw-bold text-secondary mb-2">Balón oficial</h6>
-                        <img src="../public/resources/jabulani.jpg" alt="Balón oficial"
-                            class="img-fluid rounded shadow-sm mx-auto" style="max-height: 180px;">
-                    </div>
-
-                    <!-- Campeón -->
-                    <div class="col-12 col-md-4 text-center border-start border-end">
-                        <h5 class="fw-bold text-uppercase text-success mb-3">Campeón</h5>
-                        <p class="fs-5 fw-semibold mb-1">Argentina</p>
-                        <p><strong>Goles:</strong> 18</p>
-                        <p><strong>Penales:</strong> 4</p>
-                    </div>
-
-                    <!-- Subcampeón -->
-                    <div class="col-12 col-md-4 text-center">
-                        <h5 class="fw-bold text-uppercase text-danger mb-3">Subcampeón</h5>
-                        <p class="fs-5 fw-semibold mb-1">Francia</p>
-                        <p><strong>Goles:</strong> 16</p>
-                        <p><strong>Penales:</strong> 3</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sedes -->
-            <div class="row">
-                <div class="col-12 text-center mb-4">
-                    <h4 class="fw-bold text-uppercase text-white">Sedes del Mundial</h4>
-                    <hr class="mx-auto opacity-50" style="width: 200px;">
-                </div>
-
-                <div class="col-12 col-md-4 mb-4">
-                    <div class="card h-100 shadow border-0 rounded-4">
-                        <div class="card-body">
-                            <h5 class="card-title text-primary fw-bold">🏟️ Estadio Azteca</h5>
-                            <p class="mb-1"><strong>Ciudad:</strong> Ciudad de México</p>
-                            <p class="text-muted small">
-                                Uno de los estadios más emblemáticos del mundo, sede de dos finales de la Copa Mundial
-                                de la FIFA.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-4 mb-4">
-                    <div class="card h-100 shadow border-0 rounded-4">
-                        <div class="card-body">
-                            <h5 class="card-title text-primary fw-bold">🏟️ MetLife Stadium</h5>
-                            <p class="mb-1"><strong>Ciudad:</strong> Nueva Jersey, EE. UU.</p>
-                            <p class="text-muted small">
-                                Moderna sede con capacidad para más de 80,000 espectadores, elegida para albergar
-                                partidos clave.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-4 mb-4">
-                    <div class="card h-100 shadow border-0 rounded-4">
-                        <div class="card-body">
-                            <h5 class="card-title text-primary fw-bold">🏟️ BMO Field</h5>
-                            <p class="mb-1"><strong>Ciudad:</strong> Toronto, Canadá</p>
-                            <p class="text-muted small">
-                                Ubicado junto al lago Ontario, representa la expansión del torneo a todo el continente
-                                norteamericano.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <?php if ($mundial): ?>
+        <!-- Fondo dinámico -->
+        <div class="background bg-dark">
+            <?php
+            // Si el POSTER es un blob (LONGBLOB), lo convertimos a base64 para mostrarlo
+            $posterSrc = 'data:image/jpeg;base64,' . base64_encode($mundial['POSTER']);
+            ?>
+            <img src="<?= $posterSrc ?>" alt="Fondo del Mundial">
         </div>
-    </section>
+
+        <section class="hero-section text-white py-5"
+            style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('<?= $posterSrc ?>') center center / cover no-repeat;">
+            <div class="container">
+
+                <!-- Encabezado principal -->
+                <div class="row align-items-center mb-5">
+                    <div class="col-12 col-md-6 text-center text-md-start mb-4 mb-md-0">
+                        <?php
+                        $logoSrc = 'data:image/jpeg;base64,' . base64_encode($mundial['LOGO']);
+                        ?>
+                        <img src="<?= $logoSrc ?>" alt="Logo Mundial" class="img-fluid mb-3" style="max-height: 100px;">
+                        <h1 class="display-3 fw-bold text-uppercase">
+                            Copa Mundial <?= htmlspecialchars($mundial['ANO']) ?>
+                        </h1>
+                        <p class="lead">
+                            <?= nl2br(htmlspecialchars($mundial['DESCRIPCION_MUNDIAL'])) ?>
+                        </p>
+                    </div>
+
+                    <div class="col-12 col-md-6 text-center text-md-end">
+                        <?php
+                        $imagenSrc = 'data:image/jpeg;base64,' . base64_encode($mundial['IMAGEN_COMPLEMENTARIA']);
+                        ?>
+                        <img src="<?= $imagenSrc ?>" alt="Imagen representativa" class="img-fluid rounded shadow-lg"
+                            style="max-height: 320px;">
+                    </div>
+                </div>
+
+                <!-- Tarjeta informativa -->
+                <div class="bg-light text-dark rounded shadow-lg p-4 mb-5">
+                    <div class="row">
+                        <div class="col-12 col-md-4 mb-4 mb-md-0 text-center d-flex flex-column justify-content-center">
+                            <h5 class="fw-bold text-uppercase text-primary mb-3">País sede</h5>
+                            <p class="fs-5 fw-semibold"><?= htmlspecialchars($mundial['PAIS']) ?></p>
+                            <p><strong>Año:</strong> <?= htmlspecialchars($mundial['ANO']) ?></p>
+                            <hr>
+                            <h6 class="fw-bold text-secondary mb-2">Balón oficial</h6>
+                            <?php
+                            $balonSrc = 'data:image/jpeg;base64,' . base64_encode($mundial['BALON']);
+                            ?>
+                            <img src="<?= $balonSrc ?>" alt="Balón oficial" class="img-fluid rounded shadow-sm mx-auto"
+                                style="max-height: 180px;">
+                        </div>
+
+                        <!-- Campeón -->
+                        <div class="col-12 col-md-4 text-center border-start border-end">
+                            <h5 class="fw-bold text-uppercase text-success mb-3">Campeón</h5>
+                            <p class="fs-5 fw-semibold mb-1"><?= htmlspecialchars($mundial['CAMPEON']) ?></p>
+                            <p><strong>Goles:</strong> <?= htmlspecialchars($mundial['GOLES_CAMPEON']) ?></p>
+                            <p><strong>Penales:</strong> <?= htmlspecialchars($mundial['PENALES_CAMPEON']) ?></p>
+                        </div>
+
+                        <!-- Subcampeón -->
+                        <div class="col-12 col-md-4 text-center">
+                            <h5 class="fw-bold text-uppercase text-danger mb-3">Subcampeón</h5>
+                            <p class="fs-5 fw-semibold mb-1"><?= htmlspecialchars($mundial['SUBCAMPEON']) ?></p>
+                            <p><strong>Goles:</strong> <?= htmlspecialchars($mundial['GOLES_SUBCAMPEON']) ?></p>
+                            <p><strong>Penales:</strong> <?= htmlspecialchars($mundial['PENALES_SUBCAMPEON']) ?></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sedes -->
+                <div class="row">
+                    <div class="col-12 text-center mb-4">
+                        <h4 class="fw-bold text-uppercase text-white">Sedes del Mundial</h4>
+                        <hr class="mx-auto opacity-50" style="width: 200px;">
+                    </div>
+
+                    <?php
+                    $sedes = explode(' || ', $mundial['SEDES']);
+
+                    foreach ($sedes as $sede) {
+                        $partes = explode(' | ', $sede);
+
+                        $estadio = isset($partes[0]) ? trim(str_replace('Estadio: ', '', $partes[0])) : 'Desconocido';
+                        $ciudad = isset($partes[1]) ? trim(str_replace('Ciudad: ', '', $partes[1])) : 'Desconocida';
+                        $descripcion = isset($partes[2]) ? trim(str_replace('Descripción: ', '', $partes[2])) : 'Sin descripción disponible.';
+
+                        ?>
+                        <div class="col-12 col-md-4 mb-4">
+                            <div class="card h-100 shadow border-0 rounded-4">
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary fw-bold">🏟️ <?= htmlspecialchars($estadio) ?></h5>
+                                    <p class="mb-1"><strong>Ciudad:</strong> <?= htmlspecialchars($ciudad) ?></p>
+                                    <p class="text-muted small"><?= nl2br(htmlspecialchars($descripcion)) ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+            </div>
+        </section>
+    <?php else: ?>
+        <p class="text-center text-light mt-5">No se encontró información del mundial.</p>
+    <?php endif; ?>
+
 
 
     <hr class="text-white">
