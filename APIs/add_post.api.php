@@ -32,7 +32,6 @@ try {
         exit;
     }
 
-    // Validar selección como país válido
     if (!empty($seleccion)) {
         $apiUrl = "https://restcountries.com/v3.1/all?fields=name,translations";
         $response = @file_get_contents($apiUrl);
