@@ -8,22 +8,35 @@ class Database
 {
     private $connection;
 
-    public function __construct($config)
+    public function __construct(array $config)
     {
-        $connectionString = "mysql:" . http_build_query($config, '', ';');
+        $dsn = sprintf(
+            'mysql:host=%s;dbname=%s;charset=%s',
+            $config['host'] ?? 'localhost',
+            $config['dbname'] ?? '',
+            $config['charset'] ?? 'utf8mb4'
+        );
 
         try {
-            $this->connection = new PDO($connectionString, $config['username'], $config['password']);
-            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            $this->connection = new PDO(
+                $dsn,
+                $config['username'] ?? 'root',
+                $config['password'] ?? '',
+                [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    PDO::MYSQL_ATTR_MULTI_STATEMENTS => false
+                ]
+            );
         } catch (PDOException $e) {
-            die("Database connection failed: " . $e->getMessage());
+            die(json_encode([
+                'status' => 'error',
+                'message' => 'Database connection failed: ' . $e->getMessage()
+            ]));
         }
-
     }
 
-    //Helping methods
-    public function query($sql, $params = [])
+    public function query(string $sql, array $params = [])
     {
         $stmt = $this->connection->prepare($sql);
         $stmt->execute($params);
@@ -34,12 +47,21 @@ class Database
     {
         $placeholders = implode(', ', array_map(fn($p) => ":$p", array_keys($params)));
         $sql = "CALL {$procedureName}({$placeholders})";
-
         $stmt = $this->connection->prepare($sql);
-        $stmt->execute($params);
+
+        foreach ($params as $key => $value) {
+            $stmt->bindValue(":$key", $value, $value === null ? PDO::PARAM_NULL : PDO::PARAM_STR);
+        }
+
+        $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $stmt->closeCursor();
-        return $results;
+
+        // Liberar el cursor y evitar bloqueos en futuros CALL
+        do {
+            $stmt->closeCursor();
+        } while ($stmt->nextRowset());
+
+        return $results ?: [];
     }
 
     public function getConnection(): PDO

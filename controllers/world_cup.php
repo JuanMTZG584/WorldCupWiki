@@ -3,9 +3,10 @@ use Core\Database;
 $page = 'world_cup';
 $currentPage = $_SERVER['REQUEST_URI'];
 
-//session_start();
+session_start();
 
 $mundial = null;
+$filtros = [];
 
 if (isset($_GET['id'])) {
     $id = (int) $_GET['id'];
@@ -16,10 +17,17 @@ if (isset($_GET['id'])) {
 
 
         $results = $db->callProcedure('sp_obtener_mundial_por_id', ['p_id_mundial' => $id]);
-
-
         if (!empty($results)) {
             $mundial = $results[0];
+        }
+
+        $filtrosResult = $db->callProcedure('sp_get_filtros_busqueda');
+        if (!empty($filtrosResult)) {
+            foreach ($filtrosResult as $row) {
+                $filtros[] = [
+                    'categoria' => $row['categoria'] ?? null
+                ];
+            }
         }
 
     } catch (Exception $e) {

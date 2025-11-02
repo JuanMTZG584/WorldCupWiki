@@ -25,5 +25,5 @@ $router->add('/api/v1/insert_category', 'APIs/add_category.api.php');
 $router->add('/api/v1/insert_worldcup', 'APIs/add_world_cup.api.php');
 $router->add('/api/v1/insert_post', 'APIs/add_post.api.php');
 $router->add('/api/v1/approve_post', 'APIs/approve_post.api.php');
-
+$router->add('/api/v1/get_posts', 'APIs/get_posts.api.php');
 $router->dispatch($_SERVER['REQUEST_URI']);

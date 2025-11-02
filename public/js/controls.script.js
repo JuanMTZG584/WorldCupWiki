@@ -39,11 +39,7 @@ document.getElementById('btnMeGusta').addEventListener('click', function () {
 });
 
 //tambien lo usa el index y el worldcup
-const usuarioBtn = document.getElementById('usuarioBtn');
-const usuarioInput = document.getElementById('usuarioInput');
-usuarioBtn.addEventListener('click', () => {
-    usuarioInput.classList.toggle('active');
-});
+
 
 function filtrarPublicaciones() {
   const categoria = document.getElementById('categoriafilter')?.checked || false;
