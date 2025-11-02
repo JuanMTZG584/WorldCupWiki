@@ -343,7 +343,7 @@
       responseMessage.innerHTML = spinner;
 
       try {
-        const res = await fetch('http://localhost:8000/api/v1/insert_category', {
+        const res = await fetch('/api/v1/insert_category', {
           method: 'POST',
           body: formData
         });
@@ -417,7 +417,7 @@
       formData.append('sedes', JSON.stringify(sedes));
 
       try {
-        const res = await fetch('http://localhost:8000/api/v1/insert_worldcup', {
+        const res = await fetch('/api/v1/insert_worldcup', {
           method: 'POST',
           body: formData
         });
@@ -482,7 +482,7 @@
       statusBox.innerHTML = spinner;
 
       try {
-        const res = await fetch('http://localhost:8000/api/v1/insert_post', {
+        const res = await fetch('/api/v1/insert_post', {
           method: 'POST',
           body: formData
         });
@@ -529,7 +529,7 @@
             const formData = new FormData();
             formData.append('id', id);
 
-            const res = await fetch('http://localhost:8000/api/v1/approve_post', {
+            const res = await fetch('/api/v1/approve_post', {
               method: 'POST',
               body: formData
             });

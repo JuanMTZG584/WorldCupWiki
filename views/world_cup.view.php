@@ -295,7 +295,7 @@
                         formData.append('p_usuarios', filtros.usuarios);
                         formData.append('p_orden', filtros.orden);
 
-                        const res = await fetch('http://localhost:8000/api/v1/get_posts', {
+                        const res = await fetch('/api/v1/get_posts', {
                             method: 'POST',
                             body: formData,
                             headers: {

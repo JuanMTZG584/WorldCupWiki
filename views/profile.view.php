@@ -381,7 +381,6 @@
     <script src="../public/js/bootstrap.bundle.min.js"></script>
     <script src="../public/js/controls.script.js"></script>
 
-
     <script>
         function previewImage(event) {
             const reader = new FileReader();
@@ -480,7 +479,7 @@
             formData.append("nacionalidad", nacionalidades.join(","));
 
             try {
-                const res = await fetch("http://localhost:8000/api/v1/update_profile", {
+                const res = await fetch("/api/v1/update_profile", {
                     method: "POST",
                     body: formData
                 });

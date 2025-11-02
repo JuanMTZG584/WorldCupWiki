@@ -236,7 +236,6 @@
       });
     </script>
 
-
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const filtros = {
@@ -273,7 +272,7 @@
 
         usuarioBtn.addEventListener('click', () => {
           const val = usuarioInput.value.trim();
-          filtros.usuarios = val; 
+          filtros.usuarios = val;
           fetchPublicaciones();
         });
 
@@ -318,7 +317,7 @@
             formData.append('p_usuarios', filtros.usuarios);
             formData.append('p_orden', filtros.orden);
 
-            const res = await fetch('http://localhost:8000/api/v1/get_posts', {
+            const res = await fetch('/api/v1/get_posts', {
               method: 'POST',
               body: formData,
               headers: {
@@ -341,56 +340,82 @@
           if (!publicaciones.length) return '<p class="text-white">No hay publicaciones que coincidan.</p>';
 
           return publicaciones.map(pub => {
-            const mime = pub.mime_multimedia || 'application/octet-stream'; // PHP debe enviarlo
+            const mime = pub.mime_multimedia || 'application/octet-stream';
             let mediaHtml = '';
 
             if (mime.startsWith('image/')) {
               mediaHtml = `<img src="data:${mime};base64,${pub.multimedia}" class="post-image shadow-sm mb-3" alt="imagen">`;
             } else if (mime.startsWith('video/')) {
-              mediaHtml = `
-        <video class="post-image shadow-sm mb-3" controls>
-          <source src="data:${mime};base64,${pub.multimedia}" type="${mime}">
-          Tu navegador no soporta el formato de video.
-        </video>`;
+              mediaHtml = `<video class="post-image shadow-sm mb-3" controls>
+                <source src="data:${mime};base64,${pub.multimedia}" type="${mime}">
+                Tu navegador no soporta el formato de video.
+            </video>`;
             }
 
-            return `
-      <div class="post-card-wrapper rounded">
-        <div class="card post-card shadow-lg p-3">
-          <div class="card-body">
-            <div class="d-flex justify-content-between mb-2">
-              <div class="d-flex align-items-center">
-                <img src="data:image/jpeg;base64,${pub.foto}" alt="Perfil" class="profile-img">
-                <div class="ms-2">
-                  <h6 class="mb-0">${pub.usuario}</h6>
-                  <small class="text-muted">Publicado el ${new Date(pub.fecha).toLocaleString()}</small>
+            // Comentarios: supongamos que pub.comentarios_data es un array de objetos con {usuario, foto, fecha, texto}
+            const comentariosHtml = (pub.comentarios_data || []).map(c => `
+            <div class="comment bg-light rounded mb-2">
+                <div class="comment-header d-flex justify-content-between align-items-center p-2">
+                    <div class="comment-user d-flex align-items-center">
+                        <img src="data:image/jpeg;base64,${c.foto}" alt="Avatar" class="rounded-circle" width="40" height="40">
+                        <div class="ms-2">
+                            <strong>${c.usuario}</strong><br>
+                            <small class="text-muted">Publicado el ${new Date(c.fecha).toLocaleString()}</small>
+                        </div>
+                    </div>
                 </div>
-              </div>
+                <p class="p-2">${c.texto}</p>
             </div>
+        `).join('');
 
-            <div class="mb-2 pt-3">
-               <span class="badge bg-primary">${pub.mundial}</span>
-              <span class="badge bg-secondary">${pub.seleccion}</span>
-              <span class="badge bg-success">${pub.categoria}</span>
+            return `
+        <div class="post-card-wrapper rounded">
+            <div class="card post-card shadow-lg p-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-2">
+                        <div class="d-flex align-items-center">
+                            <img src="data:image/jpeg;base64,${pub.foto}" alt="Perfil" class="profile-img">
+                            <div class="ms-2">
+                                <h6 class="mb-0">${pub.usuario}</h6>
+                                <small class="text-muted">Publicado el ${new Date(pub.fecha).toLocaleString()}</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-2 pt-3">
+                        <span class="badge bg-primary">${pub.mundial}</span>
+                        <span class="badge bg-secondary">${pub.seleccion}</span>
+                        <span class="badge bg-success">${pub.categoria}</span>
+                    </div>
+
+                    ${mediaHtml}
+
+                    <div class="d-flex mb-2 gap-2 align-items-center">
+                        <button class="btn btn-outline-primary d-flex align-items-center" type="button">
+                            <i class="fas fa-thumbs-up me-1"></i> Me gusta (${pub.likes})
+                        </button>
+                        <button class="btn btn-outline-success d-flex align-items-center" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#comentarios${pub.id}" aria-expanded="false">
+                            <i class="fas fa-comment me-1"></i> Comentar (${pub.comentarios})
+                        </button>
+                    </div>
+
+                    <div class="collapse mt-2" id="comentarios${pub.id}">
+                        ${comentariosHtml}
+                        <div class="comment-footer d-flex gap-2 align-items-center mt-2">
+                            <input type="text" class="form-control new-comment-input" placeholder="Escribe un comentario..." data-post-id="${pub.id}">
+                            <button class="btn btn-black submit-comment" type="button" data-post-id="${pub.id}">
+                                <i class="fas fa-paper-plane fa-lg icon-send"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            ${mediaHtml}
-
-            <div class="d-flex mb-2 gap-2 align-items-center">
-              <button class="btn btn-outline-primary d-flex align-items-center" type="button">
-                <i class="fas fa-thumbs-up me-1"></i> Me gusta (${pub.likes})
-              </button>
-              <button class="btn btn-outline-success d-flex align-items-center" type="button"
-                data-bs-toggle="collapse" data-bs-target="#comentarios${pub.id}">
-                <i class="fas fa-comment me-1"></i> Comentar (${pub.comentarios})
-              </button>
-            </div>
-          </div>
         </div>
-      </div>
-    `;
+        `;
           }).join('');
         }
+
 
         fetchPublicaciones();
       });

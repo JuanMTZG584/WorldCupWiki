@@ -256,7 +256,7 @@
             try {
                 spinner.classList.remove("d-none");
 
-                const res = await fetch("http://localhost:8000/api/v1/sign_up", {
+                const res = await fetch("/api/v1/sign_up", {
                     method: "POST",
                     body: formData
                 });

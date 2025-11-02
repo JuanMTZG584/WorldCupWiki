@@ -118,12 +118,11 @@
             statusBox.classList.add('d-none');
 
             try {
-                // Mostrar spinner y desactivar botón
                 spinner.classList.remove('d-none');
                 loginButton.disabled = true;
                 loginButton.textContent = "Cargando...";
 
-                const res = await fetch('http://localhost:8000/api/v1/login', {
+                const res = await fetch('/api/v1/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ correo, password })
