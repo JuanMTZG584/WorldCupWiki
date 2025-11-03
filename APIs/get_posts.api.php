@@ -9,7 +9,10 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json; charset=utf-8');
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+session_start();
+$userId = $_SESSION['user_id'] ?? 0;
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['error' => 'Método no permitido']);
     exit;
@@ -29,11 +32,14 @@ try {
     }
 
     $params = [
-        'p_paises' => $input['p_paises'] ?? null,
-        'p_anos' => $input['p_anos'] ?? null,
-        'p_categorias' => $input['p_categorias'] ?? null,
-        'p_usuarios' => $input['p_usuarios'] ?? null,
-        'p_orden' => $input['p_orden'] ?? 'fecha'
+        'p_id_usuario' => $userId,
+        'p_paises' => $input['p_paises'] ?? '',
+        'p_anos' => $input['p_anos'] ?? '',
+        'p_categorias' => $input['p_categorias'] ?? '',
+        'p_usuarios' => $input['p_usuarios'] ?? '',
+        'p_orden' => $input['p_orden'] ?? 'fecha',
+        'p_limit' => isset($input['p_limit']) ? (int) $input['p_limit'] : 2,
+        'p_offset' => isset($input['p_offset']) ? (int) $input['p_offset'] : 0
     ];
 
     $pubResults = $db->callProcedure('sp_obtener_publicaciones_activas', $params);
@@ -67,14 +73,28 @@ try {
                 'multimedia' => !empty($row['multimedia']) ? base64_encode($row['multimedia']) : null,
                 'mime_multimedia' => $mimeMultimedia ?? 'image/jpeg',
                 'likes' => $row['total_likes'] ?? 0,
-                'comentarios' => $row['total_comentarios'] ?? 0
+                'liked_by_user' => $row['liked_by_user'] ?? 0,
+                'comentarios' => $row['total_comentarios'] ?? 0,
+                'vistas' => $row['total_vistas'] ?? 0
             ];
         }
     }
+    $countParams = [
+        'p_paises' => $params['p_paises'],
+        'p_anos' => $params['p_anos'],
+        'p_categorias' => $params['p_categorias'],
+        'p_usuarios' => $params['p_usuarios']
+    ];
+    $countResult = $db->callProcedure('sp_count_publicaciones', $countParams);
+    $totalPublicaciones = $countResult[0]['total'] ?? 0;
+
 
     echo json_encode([
         'status' => 'success',
+        'total' => (int) $totalPublicaciones,
         'count' => count($publicaciones),
+        'limit' => $params['p_limit'],
+        'offset' => $params['p_offset'],
         'data' => $publicaciones
     ]);
 

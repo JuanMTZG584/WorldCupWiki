@@ -8,6 +8,9 @@ session_start();
 $mundial = null;
 $filtros = [];
 
+$mundiales_list = [];
+$categorias_list = [];
+
 if (isset($_GET['id'])) {
     $id = (int) $_GET['id'];
 
@@ -29,6 +32,26 @@ if (isset($_GET['id'])) {
                 ];
             }
         }
+
+        $results = $db->callProcedure('sp_obtener_mundiales_y_categorias');
+
+        if (!empty($results)) {
+            foreach ($results as $row) {
+                if ($row['tipo'] === 'mundial') {
+                    $mundiales_list[] = [
+                        'id' => $row['ID'],
+                        'ano' => $row['ANO'],
+                        'pais' => $row['PAIS']
+                    ];
+                } elseif ($row['tipo'] === 'categoria') {
+                    $categorias_list[] = [
+                        'id' => $row['ID'],
+                        'nombre' => $row['NOMBRE']
+                    ];
+                }
+            }
+        }
+
 
     } catch (Exception $e) {
         error_log('Error fetching mundial: ' . $e->getMessage());

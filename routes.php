@@ -29,4 +29,5 @@ $router->add('/api/v1/get_posts', 'APIs/get_posts.api.php');
 $router->add('/api/v1/get_comments', 'APIs/get_comments.api.php');
 $router->add('/api/v1/insert_comment', 'APIs/add_comment.api.php');
 $router->add('/api/v1/delete_comment', 'APIs/delete_comment.api.php');
+$router->add('/api/v1/like', 'APIs/toggle_like.api.php');
 $router->dispatch($_SERVER['REQUEST_URI']);

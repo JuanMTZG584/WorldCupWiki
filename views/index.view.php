@@ -237,6 +237,9 @@
     </script>
 
     <script>
+      let paginaActual = 1;
+      const publicacionesPorPagina = 2;
+
       document.addEventListener("DOMContentLoaded", () => {
         const filtros = {
           paises: [],
@@ -461,12 +464,15 @@
           contenedor.innerHTML = '<p class="text-white">Cargando publicaciones...</p>';
 
           try {
+            const offset = (paginaActual - 1) * publicacionesPorPagina;
             const formData = new FormData();
             formData.append('p_paises', filtros.paises);
             formData.append('p_anos', filtros.anos);
             formData.append('p_categorias', filtros.categorias);
             formData.append('p_usuarios', filtros.usuarios);
             formData.append('p_orden', filtros.orden);
+            formData.append('p_limit', publicacionesPorPagina);
+            formData.append('p_offset', offset);
 
             const res = await fetch('/api/v1/get_posts', { method: 'POST', body: formData });
             const data = await res.json();
@@ -474,6 +480,8 @@
             if (data.status === 'success') {
               contenedor.innerHTML = renderPublicaciones(data.data);
               attachCommentEvents();
+              attachLikeEvents();
+              renderPaginacion(data.total);
             } else {
               contenedor.innerHTML = '<p class="text-danger">Error al cargar publicaciones.</p>';
             }
@@ -481,6 +489,7 @@
             contenedor.innerHTML = '<p class="text-danger">Error de conexión con el servidor.</p>';
           }
         }
+
 
         function renderPublicaciones(publicaciones) {
           if (!publicaciones.length) return '<p class="text-white">No hay publicaciones que coincidan.</p>';
@@ -523,16 +532,20 @@
             </div>
 
             ${mediaHtml}
+<div class="d-flex mb-2 gap-2 align-items-center">
+  <button class="btn ${pub.liked_by_user ? 'btn-primary' : 'btn-outline-primary'} d-flex align-items-center" 
+          type="button" 
+          data-post-id="${pub.id}">
+    <i class="fas ${pub.liked_by_user ? 'fa-thumbs-down' : 'fa-thumbs-up'} me-1"></i> 
+    ${pub.liked_by_user ? 'Dislike' : 'Me gusta'} (${pub.likes})
+  </button>
 
-            <div class="d-flex mb-2 gap-2 align-items-center">
-              <button class="btn btn-outline-primary d-flex align-items-center" type="button">
-                <i class="fas fa-thumbs-up me-1"></i> Me gusta (${pub.likes})
-              </button>
-              <button class="btn btn-outline-success d-flex align-items-center" type="button"
-                data-bs-toggle="collapse" data-bs-target="#comentarios${pub.id}" aria-expanded="false">
-                <i class="fas fa-comment me-1"></i> Comentar (${pub.comentarios})
-              </button>
-            </div>
+  <button class="btn btn-outline-success d-flex align-items-center" type="button"
+          data-bs-toggle="collapse" data-bs-target="#comentarios${pub.id}" aria-expanded="false">
+    <i class="fas fa-comment me-1"></i> Comentar (${pub.comentarios})
+  </button>
+</div>
+
 
             <div class="collapse mt-2" id="comentarios${pub.id}"></div>
           </div>
@@ -577,7 +590,7 @@
           filtros.categorias = getCheckedValues('categoria');
           filtros.anos = getCheckedValues('ano');
           filtros.paises = getCheckedValues('pais');
-          
+
           searchInput.value = "";
 
           if (typeof fetchPublicaciones === "function") {
@@ -585,9 +598,135 @@
           }
         });
 
+        //likes
+        function attachLikeEvents() {
+          document.querySelectorAll('.btn[data-post-id]').forEach(btn => {
+            btn.removeEventListener('click', handleLikeClick);
+            btn.addEventListener('click', handleLikeClick);
+          });
+        }
+
+        async function handleLikeClick(e) {
+          const button = e.currentTarget;
+          const idPublicacion = button.dataset.postId;
+
+          if (!idUsuario) {
+            window.location.href = '/login';
+            return;
+          }
+
+          try {
+            const res = await fetch('/api/v1/like', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ id_publicacion: idPublicacion })
+            });
+
+            const data = await res.json();
+            if (data.status !== 'success') {
+              alert('Error al actualizar el like: ' + data.message);
+              return;
+            }
+
+            // Recargar publicaciones para actualizar likes y estado de botones
+            fetchPublicaciones();
+
+          } catch (err) {
+            console.error(err);
+            alert('Error de conexión con el servidor.');
+          }
+        }
+        //PAGINATION
+        function renderPaginacion(totalPublicaciones) {
+          const paginacion = document.getElementById('paginacion');
+          if (!paginacion) return;
+
+          const totalPaginas = Math.ceil(totalPublicaciones / publicacionesPorPagina);
+
+          if (totalPaginas <= 0) {
+            paginacion.innerHTML = '';
+            return;
+          }
+
+          paginacion.innerHTML = `
+    <div class="d-flex justify-content-center mt-3 gap-3">
+      <button class="btn btn-outline-light" id="btnAnterior" ${paginaActual === 1 ? 'disabled' : ''}>Anterior</button>
+      <span class="text-white align-self-center">Página ${paginaActual} de ${totalPaginas}</span>
+      <button class="btn btn-outline-light" id="btnSiguiente" ${paginaActual === totalPaginas ? 'disabled' : ''}>Siguiente</button>
+    </div>
+  `;
+
+          document.getElementById('btnAnterior').addEventListener('click', () => {
+            if (paginaActual > 1) {
+              paginaActual--;
+              fetchPublicaciones();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+          });
+
+          document.getElementById('btnSiguiente').addEventListener('click', () => {
+            if (paginaActual < totalPaginas) {
+              paginaActual++;
+              fetchPublicaciones();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+          });
+        }
+
         fetchPublicaciones();
       });
 
+    </script>
+
+    <script>
+
+      document.getElementById('publicacionForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const idUsuario = <?= $_SESSION['user_id'] ?? 'null' ?>;
+        if (!idUsuario) {
+          window.location.href = '/login';
+          return;
+        }
+
+        const form = e.target;
+        const statusBox = document.getElementById('statusPost');
+        statusBox.innerHTML = '';
+        statusBox.className = '';
+
+        const formData = new FormData(form);
+
+        const spinner = `
+    <div class="text-center my-3">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <p class="mt-2 mb-0 text-muted">Enviando publicación...</p>
+    </div>
+  `;
+        statusBox.innerHTML = spinner;
+
+        try {
+          const res = await fetch('/api/v1/insert_post', {
+            method: 'POST',
+            body: formData
+          });
+
+          const data = await res.json();
+
+          if (res.ok && data.success) {
+            statusBox.innerHTML = `<div class="alert alert-success">${data.message || 'Publicación enviada correctamente'}</div>`;
+            form.reset();
+          } else {
+            statusBox.innerHTML = `<div class="alert alert-danger">${data.error || 'Ocurrió un error al enviar la publicación'}</div>`;
+          }
+        } catch (err) {
+          statusBox.innerHTML = `<div class="alert alert-danger">Error de conexión con el servidor</div>`;
+          console.error(err);
+        }
+
+        setTimeout(() => { statusBox.innerHTML = ''; }, 4000);
+      });
     </script>
 
     <script src="../public/js/controls.script.js"></script>
